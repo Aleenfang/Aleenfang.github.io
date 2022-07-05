@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>script标签 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="将JavaScript引入HTML的方式主要是使用script标签。script标签可以放在&gt;标签里面，放在这里除非使用async、defer属性，不然都无法访问到dom对象，因为执行它里面的代码的时候dom元素还没有挂载，也可以放在标签里面，除非使用async、defer属性，不然放在这里只可以拿到script标签前面的dom元素，拿不到script标签后面的dom元素，因为执行的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="script标签">
+<meta property="og:url" content="http://example.com/2022/07/05/script%E6%A0%87%E7%AD%BE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="将JavaScript引入HTML的方式主要是使用script标签。script标签可以放在&gt;标签里面，放在这里除非使用async、defer属性，不然都无法访问到dom对象，因为执行它里面的代码的时候dom元素还没有挂载，也可以放在标签里面，除非使用async、defer属性，不然放在这里只可以拿到script标签前面的dom元素，拿不到script标签后面的dom元素，因为执行的时候">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-05T10:17:26.000Z">
+<meta property="article:modified_time" content="2022-07-05T15:03:27.543Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-script标签" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/" class="article-date">
+  <time class="dt-published" datetime="2022-07-05T10:17:26.000Z" itemprop="datePublished">2022-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      script标签
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>  将JavaScript引入HTML的方式主要是使用script标签。script标签可以放在<head></head>&gt;标签里面，放在这里除非使用async、defer属性，不然都无法访问到dom对象，因为执行它里面的代码的时候dom元素还没有挂载，也可以放在<body></body>标签里面，除非使用async、defer属性，不然放在这里只可以拿到script标签前面的dom元素，拿不到script标签后面的dom元素，因为执行的时候dom元素还没有挂载。如果不给script标签添加async属性或者defer属性，浏览器会同步下载JavaScript代码并同步执行，这个时候会阻塞浏览器的其他动作。</p>
+<h2 id="script标签的属性"><a href="#script标签的属性" class="headerlink" title="script标签的属性"></a>script标签的属性</h2><ol>
+<li><p>async </p>
+<p>表示应该立即下载脚本，但是异步执行脚本里面的内容。也就是说不会阻碍HTML其他的正常动作执行。只对外部引入脚本有效。当有多个async时，浏览器不能保证是否按照先后顺序执行。</p>
+</li>
+<li><p>defer</p>
+<p> 浏览器对这个属性的script标签的处理方式类似，区别是：浏览器会按照标签出现的先后次序执行脚本。</p>
+</li>
+<li><p>crosorigin</p>
+<p> 用于配置相关请求CORS(跨域资源共享)设置。添加crosorigin之后，控制台会显示一个比较详细的报错信息。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-cn&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index2.js&quot;</span>  <span class="attr">crossorigin</span>=<span class="string">&quot;use-credentials&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>src</p>
+<p>   用户引入外部的js文件，src属性的值是一个url，当浏览器解析到这个地方的时候，会向该url发送一个get请求，这个get请求不受同源策略的限制，但是下载过来的js代码再发送网络请求的时候又会受到同源策略的限制。由script标签的get请求不受同源策略限制的特性，衍生出了JSONP这种解决跨域问题的方法。当为script标签设置了src属性之后，浏览器就会只执行外部引入的JavaScript，忽略script标签内部的行内JavaScript。</p>
+</li>
+<li><p>type</p>
+<p>   当将type的值设置为module时，浏览器就会将该script标签视为一个模块，从而可以使用es6的import语法导入模块和export语法导出模块。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-cn&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index2.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;halo&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> hi = sayHi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index2.js</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> func <span class="keyword">from</span> <span class="string">&#x27;./index.js&#x27;</span></span><br><span class="line"></span><br><span class="line">func.<span class="title function_">hi</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="动态加载script"><a href="#动态加载script" class="headerlink" title="动态加载script"></a>动态加载script</h2><p>​		</p>
+<p>通过JavaScript可以操纵dom，动态创建script标签，挂载到dom上，从而让浏览器解析里面的JavaScript代码。</p>
+<h2 id="标签"><a href="#标签" class="headerlink" title="  标签"></a><strong><noscript></strong>  标签</h2><p>当浏览器不支持JavaScript或者禁用JavaScript时，浏览器就会渲染<noscript>标签里面的内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/05/script%E6%A0%87%E7%AD%BE/" data-id="cl58awzdj000dg8w7h09e4xex" data-title="script标签" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MVC和MVVM的关系
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/05/%E8%8A%82%E6%B5%81%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">节流函数(throttle)的实现</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%98%E8%AE%A4/" rel="tag">默认</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/javaScript/" style="font-size: 20px;">javaScript</a> <a href="/tags/%E9%BB%98%E8%AE%A4/" style="font-size: 10px;">默认</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/TypedArray/">TypedArray</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/%E5%B7%A5%E4%BD%9C%E8%80%85%E7%BA%BF%E7%A8%8B%20webworker/">工作者线程</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/">MVC和MVVM的关系</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/">script标签</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/%E8%8A%82%E6%B5%81%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0/">节流函数(throttle)的实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>ArrayBuffer | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ArrayBuffer对象：代表内存中的一段二进制数据，可以通过视图对其进行操作 TypedArray视图：共包括9种类型的视图，比如Uint8Array(U代表unsigned 无符号的，int代表整数，8代表每个整数占8位内存空间，也就是大小范围为 0-255 &#x2F; 00000000 - 11111111) DataView视图：可以自定义复合格式的视图，比如第一个字节是Uint8Ar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArrayBuffer">
+<meta property="og:url" content="http://example.com/2022/07/05/ArrayBuffer/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ArrayBuffer对象：代表内存中的一段二进制数据，可以通过视图对其进行操作 TypedArray视图：共包括9种类型的视图，比如Uint8Array(U代表unsigned 无符号的，int代表整数，8代表每个整数占8位内存空间，也就是大小范围为 0-255 &#x2F; 00000000 - 11111111) DataView视图：可以自定义复合格式的视图，比如第一个字节是Uint8Ar">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-05T10:15:21.000Z">
+<meta property="article:modified_time" content="2022-07-05T15:02:23.303Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-ArrayBuffer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/05/ArrayBuffer/" class="article-date">
+  <time class="dt-published" datetime="2022-07-05T10:15:21.000Z" itemprop="datePublished">2022-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      ArrayBuffer
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="ArrayBuffer对象："><a href="#ArrayBuffer对象：" class="headerlink" title="ArrayBuffer对象："></a>ArrayBuffer对象：</h4><p>代表内存中的一段二进制数据，可以通过视图对其进行操作</p>
+<h4 id="TypedArray视图："><a href="#TypedArray视图：" class="headerlink" title="TypedArray视图："></a>TypedArray视图：</h4><p>共包括9种类型的视图，比如Uint8Array(U代表unsigned 无符号的，int代表整数，8代表每个整数占8位内存空间，也就是大小范围为</p>
+<p>0-255 &#x2F; 00000000 - 11111111)</p>
+<h4 id="DataView视图："><a href="#DataView视图：" class="headerlink" title="DataView视图："></a>DataView视图：</h4><p>可以自定义复合格式的视图，比如第一个字节是Uint8Array,第二个是Float32Array。还可以自定义字节序。</p>
+<p>总之，ArrayBuffer对象代表二进制数据，而视图提供了操纵这一串二进制数据的接口</p>
+<h4 id="创建ArrayBuffer对象："><a href="#创建ArrayBuffer对象：" class="headerlink" title="创建ArrayBuffer对象："></a>创建ArrayBuffer对象：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buffer = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">32</span>) <span class="comment">// 32代表这里生成的ArrayBuffer长度为32个字节，也就是256位</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(buffer.<span class="property">byteLength</span>) <span class="comment">//32 ArrayBuffer.prototype.byteLength可以获取ArrayBuffer 的长度 ，也可以用来检测是否成功生成 ArrayBuffer ，因为分配的空间太大时，计算机可能没有足够大的连续内存空间</span></span><br><span class="line"><span class="keyword">const</span> buffer2 = buffer.<span class="title function_">slice</span>(<span class="number">0</span>, buffer.<span class="property">byteLength</span>/<span class="number">2</span>) <span class="comment">//ArrayBuffer.prototype.slice 可以拷贝内存中的一段区域，生成一个新的ArrayBuffer</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="创建TypedArray视图："><a href="#创建TypedArray视图：" class="headerlink" title="创建TypedArray视图："></a>创建TypedArray视图：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(buffer) <span class="comment">// 创建一个8位无符号整数数组，以ArrayBuffer实例作为参数</span></span><br><span class="line"><span class="keyword">const</span> view2 = <span class="keyword">new</span> <span class="title class_">Uint16Array</span>(buffer) <span class="comment">//创建一个16位无符号整数数组，以ArrayBuffer实例作为参数</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">ArrayBuffer</span>.<span class="title function_">isView</span>(view1)) <span class="comment">// true ArrayBuffer.isView可以判断参数对象是否为ArrayBuffer的视图实例</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(view1.<span class="property">length</span>);	<span class="comment">//view1数组的长度为  256/8 = 32 </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(view2.<span class="property">length</span>);	<span class="comment">//view2数组的长度为  256/8 = 16</span></span><br><span class="line">view1[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">view1[<span class="number">1</span>] = <span class="number">255</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(view2[<span class="number">0</span>]);	<span class="comment">// 65280 由于view1和view2操纵的是同一个ArrayBuffer，所以view1的操作会影响view2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>​	由上面代码不难知道：TypedArray 只是ArrayBuffer的一层视图（我会将TypedArray看作是解析ArrayBuffer的一种形式），本身不储存数据，它的数据都储存在底层的<code>ArrayBuffer</code>对象之中，要获取底层对象必须使用TypedArray的<code>buffer</code>属性。</p>
+<h4 id="ArrayBuffer-与-字符串的互相转换"><a href="#ArrayBuffer-与-字符串的互相转换" class="headerlink" title="ArrayBuffer 与 字符串的互相转换"></a>ArrayBuffer 与 字符串的互相转换</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">ab2str</span>(<span class="params">TypedArray</span>) &#123;				<span class="comment">// 这个函数是将TypedArray转换为字符串</span></span><br><span class="line">    <span class="keyword">let</span> utf8decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>()	</span><br><span class="line">    <span class="keyword">return</span> utf8decoder.<span class="title function_">decode</span>(<span class="title class_">TypedArray</span>)	<span class="comment">//返回的就是解码之后的字符串</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">str2ab</span>(<span class="params">str,arrayBufferView</span>)&#123;	<span class="comment">//这里第一个参数是要编码的字符串，第二个参数Uint8TypedArray</span></span><br><span class="line">    <span class="keyword">const</span> utf8Encoder = <span class="keyword">new</span> <span class="title class_">TextEncoder</span>()</span><br><span class="line">    <span class="keyword">const</span> result = utf8Encoder.<span class="title function_">encodeInto</span>(str,arrayBufferView)</span><br><span class="line">    <span class="keyword">return</span> result						<span class="comment">//返回的是编码结果字典，如果arrayBuffer不够大的话就会写入不全，会在result中显示</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(<span class="number">8</span>)</span><br><span class="line"><span class="title function_">str2ab</span>(<span class="string">&#x27;halo&#x27;</span>,view2)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">ab2str</span>(view1));</span><br></pre></td></tr></table></figure>
+
+<p>总之，要先给ArrayBuffer创建对应的视图，然后再调用 Encoding API ，由Encoding API 对视图进行编解码。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/05/ArrayBuffer/" data-id="cl58awzd40000g8w7a72233t8" data-title="ArrayBuffer" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/05/%E9%98%B2%E6%8A%96%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          防抖函数(debounce)的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/05/css%20variable/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS variable</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%98%E8%AE%A4/" rel="tag">默认</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/javaScript/" style="font-size: 20px;">javaScript</a> <a href="/tags/%E9%BB%98%E8%AE%A4/" style="font-size: 10px;">默认</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/05/TypedArray/">TypedArray</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/%E5%B7%A5%E4%BD%9C%E8%80%85%E7%BA%BF%E7%A8%8B%20webworker/">工作者线程</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/">MVC和MVVM的关系</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/">script标签</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/05/%E8%8A%82%E6%B5%81%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0/">节流函数(throttle)的实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
