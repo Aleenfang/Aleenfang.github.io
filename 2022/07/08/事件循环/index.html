@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>事件循环 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="JavaScript是一门单线程异步的脚本语言，也就是只有一个调用栈，同一时刻只能执行一条语句。所谓异步，就是这个任务可能会耗费很长的事件，比如网络请求、文件IO等等......让整个程序都阻塞在这个地方，大大影响了程序的性能。为了解决这个问题，引入了异步的概念。就是先执行其他不容易导致阻塞的部分，其他部分执行完了之后再执行异步部分。  什么是异步？​	JavaScript执行上下文执行到异步代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件循环">
+<meta property="og:url" content="http://example.com/2022/07/08/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JavaScript是一门单线程异步的脚本语言，也就是只有一个调用栈，同一时刻只能执行一条语句。所谓异步，就是这个任务可能会耗费很长的事件，比如网络请求、文件IO等等......让整个程序都阻塞在这个地方，大大影响了程序的性能。为了解决这个问题，引入了异步的概念。就是先执行其他不容易导致阻塞的部分，其他部分执行完了之后再执行异步部分。  什么是异步？​	JavaScript执行上下文执行到异步代">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-08T07:18:21.000Z">
+<meta property="article:modified_time" content="2022-07-14T15:36:26.970Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javaScript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-事件循环" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/08/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="article-date">
+  <time class="dt-published" datetime="2022-07-08T07:18:21.000Z" itemprop="datePublished">2022-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      事件循环
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre><code> JavaScript是一门单线程异步的脚本语言，也就是只有一个调用栈，同一时刻只能执行一条语句。所谓异步，就是这个任务可能会耗费很长的事件，比如网络请求、文件IO等等......让整个程序都阻塞在这个地方，大大影响了程序的性能。为了解决这个问题，引入了异步的概念。就是先执行其他不容易导致阻塞的部分，其他部分执行完了之后再执行异步部分。
+</code></pre>
+<h4 id="什么是异步？"><a href="#什么是异步？" class="headerlink" title="什么是异步？"></a>什么是异步？</h4><p>​	JavaScript执行上下文执行到异步代码的部分的时候并不会立刻执行这个里面的任务，而是会先将这个代码块放入一个任务队列当中，暂时搁置，先去执行别的同步代码，当全部同步代码执行完毕之后，再按照异步任务放入任务队列的顺序挨个执行。</p>
+<h4 id="怎么实现代码异步执行？"><a href="#怎么实现代码异步执行？" class="headerlink" title="怎么实现代码异步执行？"></a>怎么实现代码异步执行？</h4><p>​	最简单的异步当属定时器(setTimeout)了，当我们在定时器中传入回调函数之后，回调函数总是会在程序的同步代码和promise之后执行。</p>
+<p>​	其实将异步任务继续细分的话，可以分为宏任务和微任务。宏任务一般是由宿主环境定义的，微任务是由JavaScript自己定义的。每个宏任务都会先执行，然后执行它附属的微任务，必须等微任务执行完毕之后才能开始执行下一个宏任务。</p>
+<h4 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h4><p>​	主要的宏任务声明途径有：</p>
+<ol>
+<li>新程序或者子程序的执行  </li>
+<li>事件的回调函数</li>
+<li>setTimeout()  setInterval()</li>
+</ol>
+<h4 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h4><p>​	主要的微任务声明途径有：</p>
+<ol>
+<li>Promise.then()  Promise.catch() Promise.finally()</li>
+<li>MutationObserver</li>
+</ol>
+<h4 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h4><p>​	事件循环描述的是JavaScript执行代码的顺序，有三大组成要素 </p>
+<ol>
+<li>调用栈</li>
+<li>宏任务队列（消息队列）</li>
+<li>微任务队列</li>
+</ol>
+<p>执行顺序</p>
+<ol>
+<li>执行JavaScript语句</li>
+<li>碰到函数就将函数压入调用栈</li>
+<li>碰到微任务和宏任务声明就将它们压入相应的队列</li>
+<li>调用栈清空</li>
+<li>执行微任务队列</li>
+<li>微任务队列清空</li>
+<li>浏览器渲染</li>
+<li>执行宏任务队列</li>
+<li>返回到1</li>
+<li>宏任务队列清空</li>
+</ol>
+<h4 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a>实例代码</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务1.1 （script）&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务2&#x27;</span>)</span><br><span class="line">    <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">()=&gt;</span><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;微任务1&#x27;</span>))</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务3&#x27;</span>))</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;微任务2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务1.2 （script）&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;微任务3&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务4.1&#x27;</span>)</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;宏任务4.2&#x27;</span>)</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;微任务4&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/08/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" data-id="cl5l7337e000nj0w71sjwe2am" data-title="事件循环" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/13/%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          原型和原型链
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/07/%E5%AE%9E%E7%8E%B0%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数组扁平化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%98%E8%AE%A4/" rel="tag">默认</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 16.67px;">CSS</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/javaScript/" style="font-size: 20px;">javaScript</a> <a href="/tags/%E9%BB%98%E8%AE%A4/" style="font-size: 13.33px;">默认</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/">localStorage和sessionstorage的区别</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/">css选择器和优先级</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/14/%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98/">回流和重绘</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/">原型和原型链</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/08/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">事件循环</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

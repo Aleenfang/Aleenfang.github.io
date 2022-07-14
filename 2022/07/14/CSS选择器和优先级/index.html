@@ -4,14 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Tag: CSS | Hexo</title>
+  <title>css选择器和优先级 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/tags/CSS/index.html">
+  <meta name="description" content="常用的CSS选择器有 元素选择器 （权重 1） 群组选择器 （   h2 , p {}  右边花括号里面的规则应用到左边两个选择器上） 通用选择器 （权重0  * { }  ） 类选择器     （权重10    .class-name { } ）  ID选择器     （权重100   #id { } ） 后代选择器   （h2 p { } ） 子元素选择器  （h2 &gt; p { }） 兄">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css选择器和优先级">
+<meta property="og:url" content="http://example.com/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="常用的CSS选择器有 元素选择器 （权重 1） 群组选择器 （   h2 , p {}  右边花括号里面的规则应用到左边两个选择器上） 通用选择器 （权重0  * { }  ） 类选择器     （权重10    .class-name { } ）  ID选择器     （权重100   #id { } ） 后代选择器   （h2 p { } ） 子元素选择器  （h2 &gt; p { }） 兄">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-14T12:47:26.000Z">
+<meta property="article:modified_time" content="2022-07-14T15:19:05.344Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -69,134 +74,79 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-14T12:47:26.000Z" itemprop="datePublished">Jul 14</time>
+        <section id="main"><article id="post-CSS选择器和优先级" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/" class="article-date">
+  <time class="dt-published" datetime="2022-07-14T12:47:26.000Z" itemprop="datePublished">2022-07-14</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/">css选择器和优先级</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      css选择器和优先级
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/06/%E6%A0%87%E5%87%86%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E5%92%8CIE%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-06T10:38:21.000Z" itemprop="datePublished">Jul 6</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/06/%E6%A0%87%E5%87%86%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E5%92%8CIE%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/">标准盒子模型和IE盒子模型</a>
-    </h1>
-  
+        <h4 id="常用的CSS选择器有"><a href="#常用的CSS选择器有" class="headerlink" title="常用的CSS选择器有"></a>常用的CSS选择器有</h4><ol>
+<li>元素选择器 （权重 1）</li>
+<li>群组选择器 （   h2 , p {}  右边花括号里面的规则应用到左边两个选择器上）</li>
+<li>通用选择器 （权重0  * { }  ）</li>
+<li>类选择器     （权重10    .class-name { } ） </li>
+<li>ID选择器     （权重100   #id { } ）</li>
+<li>后代选择器   （h2 p { } ）</li>
+<li>子元素选择器  （h2 &gt; p { }）</li>
+<li>兄弟选择器 ( h2 + p { }  意思是p元素紧跟在h2元素后面，且同属于一个父元素)</li>
+<li>后续兄弟选择器 ( h2 ~ p { } 意思是同一父元素下所有在h2元素后面的p元素)</li>
+<li>伪类选择器</li>
+<li>伪元素选择器</li>
+</ol>
+<p>​		当有多条规则作用于同一个元素是，渲染引擎就会计算不同规则的权重，由权重最高的那一条规则生效。</p>
+<p>css权重的计算就是每出现一个相应权重的选择器，就将它的权值加入总权重当中来。</p>
+<p>​		当元素脱离正常的文档流时，元素之间就会互相堆叠，可以通过设置z-index属性来控制堆叠的顺序。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/05/ArrayBuffer/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-05T10:15:21.000Z" itemprop="datePublished">Jul 5</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/05/ArrayBuffer/">ArrayBuffer</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/05/css%20variable/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-05T10:15:21.000Z" itemprop="datePublished">Jul 5</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/" data-id="cl5l733700003j0w7emdic14g" data-title="css选择器和优先级" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/05/css%20variable/">CSS variable</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/05/CSS%E5%A6%82%E4%BD%95%E4%B8%80%E8%A1%8C%E3%80%81%E5%A4%9A%E8%A1%8C%E6%BA%A2%E5%87%BA%E6%98%BE%E7%A4%BA%E7%9C%81%E7%95%A5%E5%8F%B7/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-05T10:11:21.000Z" itemprop="datePublished">Jul 5</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/05/CSS%E5%A6%82%E4%BD%95%E4%B8%80%E8%A1%8C%E3%80%81%E5%A4%9A%E8%A1%8C%E6%BA%A2%E5%87%BA%E6%98%BE%E7%A4%BA%E7%9C%81%E7%95%A5%E5%8F%B7/">CSS如何一行、多行溢出显示省略号</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2022/07/05/css%E5%AE%9E%E7%8E%B0%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%92%8C%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
-  <time class="dt-published" datetime="2022-07-05T10:04:26.000Z" itemprop="datePublished">Jul 5</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/05/css%E5%AE%9E%E7%8E%B0%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E5%92%8C%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95/">css实现元素水平和垂直居中的方法</a>
-    </h1>
-  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          localStorage和sessionstorage的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/07/14/%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">回流和重绘</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

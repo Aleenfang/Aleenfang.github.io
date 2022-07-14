@@ -16,7 +16,7 @@
 <meta property="og:image" content="c:/Users/19201/AppData/Roaming/Typora/typora-user-images/image-20220603234002353.png">
 <meta property="og:image" content="c:/Users/19201/AppData/Roaming/Typora/typora-user-images/image-20220604002305490.png">
 <meta property="article:published_time" content="2022-07-05T10:18:26.000Z">
-<meta property="article:modified_time" content="2022-07-05T15:01:55.941Z">
+<meta property="article:modified_time" content="2022-07-14T15:35:18.039Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="默认">
 <meta name="twitter:card" content="summary">
@@ -106,15 +106,15 @@
 <h3 id="model"><a href="#model" class="headerlink" title="model"></a>model</h3><p>​			model就是数据模型的意思，它是职能单一的，只负责数据库的操作，执行sql语句，进行数据的增、删、改、查 。 数据模型里面对增删改查等操作进行了封装，并对外部暴露了封装好之后的方法，使得controler在对数据库操作的时候不需要每次都写sql语句。同时，model也负责连接数据库。</p>
 <p><img src="C:\Users\19201\AppData\Roaming\Typora\typora-user-images\image-20220603234002353.png" alt="image-20220603234002353"></p>
 <h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVＭ"></a>MVVＭ</h2><p>​		mｖｖｍ是前端的逻辑分层概念。可以分为三层：每个页面保存的数据模型（ｍ）数据调度者（ｍｖ）视图层（ｖ）。</p>
-<h3 id="model-1"><a href="#model-1" class="headerlink" title="ｍｏｄｅｌ"></a>ｍｏｄｅｌ</h3><p>​				当用户打开一个页面的时候，页面会向服务器发送请求，并将数据保存在本地。这些数据就是当前页面的数据模型。数据模型要显示到页面上的话就要将数据给到ｍｖ。在ｖｕｅ中，响应式数据功能实现了ｍｏｄｅｌ和ｍｏｄｅｌｖｉｅｗ的数据双向绑定</p>
-<h3 id="modelview"><a href="#modelview" class="headerlink" title="ｍｏｄｅｌｖｉｅｗ"></a>ｍｏｄｅｌｖｉｅｗ</h3><p>​				当<strong>数据</strong>从服务器下载到本地之后，<strong>数据</strong>就会流向ｍｖ模型，然后由ｍｖ模型决定什么时候将<strong>数据</strong>渲染到<strong>视图层</strong>。当ｍｖ拿到来自于页面的数据之后，也会将数据保存到数据模型中去。在ｖｕｅ中，框架所做的事情就相当于这里的数据调度者。ｖｕｅ框架实现了与ｖｉｅｗ之间的数据双向绑定</p>
-<h3 id="view-1"><a href="#view-1" class="headerlink" title="ｖｉｅｗ"></a>ｖｉｅｗ</h3><p>​				视图层负责将来自于ｍｖ的数据显示到页面上来。当用户触发页面监听的事件，输入数据之后，将数据返回给数据调度模型（ｍｖ）。</p>
+<h3 id="model-1"><a href="#model-1" class="headerlink" title="model"></a>model</h3><p>​				当用户打开一个页面的时候，页面会向服务器发送请求，并将数据保存在本地。这些数据就是当前页面的数据模型。数据模型要显示到页面上的话就要将数据给到ｍｖ。在ｖｕｅ中，响应式数据功能实现了ｍｏｄｅｌ和ｍｏｄｅｌｖｉｅｗ的数据双向绑定</p>
+<h3 id="modelview"><a href="#modelview" class="headerlink" title="modelview"></a>modelview</h3><p>​				当<strong>数据</strong>从服务器下载到本地之后，<strong>数据</strong>就会流向ｍｖ模型，然后由ｍｖ模型决定什么时候将<strong>数据</strong>渲染到<strong>视图层</strong>。当ｍｖ拿到来自于页面的数据之后，也会将数据保存到数据模型中去。在ｖｕｅ中，框架所做的事情就相当于这里的数据调度者。ｖｕｅ框架实现了与ｖｉｅｗ之间的数据双向绑定</p>
+<h3 id="view-1"><a href="#view-1" class="headerlink" title="view"></a>view</h3><p>​				视图层负责将来自于ｍｖ的数据显示到页面上来。当用户触发页面监听的事件，输入数据之后，将数据返回给数据调度模型（ｍｖ）。</p>
 <p><img src="C:\Users\19201\AppData\Roaming\Typora\typora-user-images\image-20220604002305490.png" alt="image-20220604002305490"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/" data-id="cl58b3ss200035kw7dstgfpft" data-title="MVC和MVVM的关系" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/" data-id="cl5l733710004j0w7dscseh6i" data-title="MVC和MVVM的关系" class="article-share-link">Share</a>
       
       
       
@@ -136,9 +136,9 @@
     </a>
   
   
-    <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/07/05/new%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">script标签</div>
+      <div class="article-nav-title">new一个对象的时候发生了什么？</div>
     </a>
   
 </nav>
@@ -158,7 +158,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%98%E8%AE%A4/" rel="tag">默认</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%98%E8%AE%A4/" rel="tag">默认</a></li></ul>
     </div>
   </div>
 
@@ -168,7 +168,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/javaScript/" style="font-size: 20px;">javaScript</a> <a href="/tags/%E9%BB%98%E8%AE%A4/" style="font-size: 10px;">默认</a>
+      <a href="/tags/CSS/" style="font-size: 16.67px;">CSS</a> <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/javaScript/" style="font-size: 20px;">javaScript</a> <a href="/tags/%E9%BB%98%E8%AE%A4/" style="font-size: 13.33px;">默认</a>
     </div>
   </div>
 
@@ -190,23 +190,23 @@
       <ul>
         
           <li>
-            <a href="/2022/07/05/TypedArray/">TypedArray</a>
+            <a href="/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/">localStorage和sessionstorage的区别</a>
           </li>
         
           <li>
-            <a href="/2022/07/05/%E5%B7%A5%E4%BD%9C%E8%80%85%E7%BA%BF%E7%A8%8B%20webworker/">工作者线程</a>
+            <a href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/">css选择器和优先级</a>
           </li>
         
           <li>
-            <a href="/2022/07/05/MVC%E5%92%8CMVV%EF%BC%AD%E7%9A%84%E5%85%B3%E7%B3%BB/">MVC和MVVM的关系</a>
+            <a href="/2022/07/14/%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98/">回流和重绘</a>
           </li>
         
           <li>
-            <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/">script标签</a>
+            <a href="/2022/07/13/%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/">原型和原型链</a>
           </li>
         
           <li>
-            <a href="/2022/07/05/%E8%8A%82%E6%B5%81%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0/">节流函数(throttle)的实现</a>
+            <a href="/2022/07/08/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">事件循环</a>
           </li>
         
       </ul>
