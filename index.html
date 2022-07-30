@@ -145,6 +145,496 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">在vue中父组件给子组件传值数据丢失问题中</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 12:10:26 / 修改时间：12:25:42" itemprop="dateCreated datePublished" datetime="2022-07-30T12:10:26+08:00">2022-07-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="错误场景"><a href="#错误场景" class="headerlink" title="错误场景"></a>错误场景</h4><p>​	在vue中，父组件给子组件传的值需要异步获取，在浏览器刷新之后，这可能会造成子组件报错  can not read data  not defined ，子组件报没拿到父组件传过来的值，但是我拿vue develop tools 查看子组件，却可以看到从父组件传过来的值，子组件却没有将值渲染出来。</p>
+<h4 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h4><p>​	当浏览器刷新之后，整个vue实例就会被重新加载，父组件就会调用API 重新发送网络请求，但是这个时候问题来了，网络请求是异步的，当子组件已经开始渲染的时候父组件还没有拿到数据，所以子组件就会报错。</p>
+<p>​	还有一种情况，如果数据的对象比较大，可能浅层的数据已经可以拿到了，但是深层的数据还是undefined。</p>
+<p>​	所以我的解决办法就是给子组件加上一个 v-if  条件就是需要传给子组件的数据，因为浅层数据拿到的时候深层数据不一定拿到，所以最好是将深层数据作为条件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line"> &lt;div class=&quot;playlist-detail&quot; v-if=&quot;playlist.creator&quot;&gt;</span><br><span class="line">        &lt;PlayListDetailTop :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line">        &lt;ItemPlaylist :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">const playlist = ref(&#123;&#125;)</span><br><span class="line">const isLoading = ref(true)</span><br><span class="line"></span><br><span class="line">onMounted(async () =&gt; &#123;</span><br><span class="line">    const id = useRoute().query.id         //通过路由获取歌单id</span><br><span class="line">    const res = await getPlayListDetail(id)</span><br><span class="line">    isLoading.value = false</span><br><span class="line">    playlist.value = res.data.playlist</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">transform中rotate和translate混用的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 11:59:26 / 修改时间：12:03:34" itemprop="dateCreated datePublished" datetime="2022-07-30T11:59:26+08:00">2022-07-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>transform可以在浏览器不用reLayout的情况下移动元素的位置，对动画性能比较友好。</p>
+<p>​	其中，translate是使元素平移，rotate是使元素旋转</p>
+<p>​	在旋转的时候，会将元素的 x， y轴跟着一起旋转，所以当面临混用的情况，就可以将translate放在前面，rotate放在后面，这样就会先平移再旋转，不会影响到translate</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">20px</span>,<span class="number">20px</span>) <span class="built_in">rotate</span>(<span class="number">90deg</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">遍历数组的两种常用方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 11:39:21 / 修改时间：11:46:50" itemprop="dateCreated datePublished" datetime="2022-07-30T11:39:21+08:00">2022-07-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-Array-prototype-forEach-callback-item-index-array"><a href="#1-Array-prototype-forEach-callback-item-index-array" class="headerlink" title="1. Array.prototype.forEach( callback(item,index,array )  )"></a>1. Array.prototype.forEach( callback(item,index,array )  )</h4><p>​	forEach传入一个回调函数，回调函数有3个参数</p>
+<ol>
+<li>当前遍历的value</li>
+<li>当前value的下标</li>
+<li>当前遍历的array</li>
+</ol>
+<h4 id="2-Array-prototype-map-callback-item-index-array"><a href="#2-Array-prototype-map-callback-item-index-array" class="headerlink" title="2. Array.prototype.map(callback(item,index,array ) )"></a>2. Array.prototype.map(callback(item,index,array ) )</h4><p>​	map参数跟forEach一样</p>
+<h3 id="map-和-forEach的区别："><a href="#map-和-forEach的区别：" class="headerlink" title="map 和  forEach的区别："></a>map 和  forEach的区别：</h3><p>map 会根据回调函数的返回值返回一个新的数组，如果回调函数返回true，就会把当前遍历的value添加到新数组中去，返回false就不添加，而forEach函数没有返回值</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/" class="post-title-link" itemprop="url">将一个数组中的元素复制到另一个数组中的方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 11:29:21 / 修改时间：11:38:31" itemprop="dateCreated datePublished" datetime="2022-07-30T11:29:21+08:00">2022-07-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id><a href="#" class="headerlink" title></a></h2><h4 id="1-展开运算符"><a href="#1-展开运算符" class="headerlink" title="1. 展开运算符"></a>1. 展开运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">arr1.<span class="title function_">push</span>(...arr2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开"><a href="#2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开" class="headerlink" title="2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开"></a>2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> array2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">array1.<span class="property">push</span>.<span class="title function_">apply</span>(array1,array2)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/" class="post-title-link" itemprop="url">函数式编程--函数柯里化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-29 21:29:21 / 修改时间：21:36:45" itemprop="dateCreated datePublished" datetime="2022-07-29T21:29:21+08:00">2022-07-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h2><p>​	函数柯里化就是在函数里面返回函数</p>
+<ul>
+<li><h4 id="可以实现函数参数的复用"><a href="#可以实现函数参数的复用" class="headerlink" title="可以实现函数参数的复用"></a>可以实现函数参数的复用</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   可以实现函数参数的复用</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">url_curring</span>(<span class="params">protocol</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">hostname, pathname</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;protocol&#125;</span><span class="subst">$&#123;hostname&#125;</span><span class="subst">$&#123;pathname&#125;</span>`</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url_https = <span class="title function_">url_curring</span>(<span class="string">&quot;https://&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url_1 = <span class="title function_">url_https</span>(<span class="string">&quot;www.huangkuang&quot;</span>, <span class="string">&quot;.com&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> url_2 = <span class="title function_">url_https</span>(<span class="string">&quot;aleenfang.github&quot;</span>, <span class="string">&quot;.io&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_https);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_1); <span class="comment">// https://www.huangkuang.com</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_2); <span class="comment">//  https://aleenfang.github.io</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="兼容性检测"><a href="#兼容性检测" class="headerlink" title="兼容性检测"></a>兼容性检测</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">whichEvent = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">addEventListener</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">element, type, listener, useCapture</span>) &#123;</span><br><span class="line">			element.<span class="title function_">addEventListener</span>(</span><br><span class="line">				type,</span><br><span class="line">				<span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">					listener.<span class="title function_">call</span>(element, e);</span><br><span class="line">				&#125;,</span><br><span class="line">				useCapture</span><br><span class="line">			);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">attachEvent</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">element, type, handler</span>) &#123;</span><br><span class="line">			element.<span class="title function_">attachEvent</span>(<span class="string">&quot;on&quot;</span> + type, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">				handler.<span class="title function_">call</span>(element, e);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)();		</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="延迟执行"><a href="#延迟执行" class="headerlink" title="延迟执行"></a>延迟执行</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);   <span class="comment">//将arguments对象转换为shu</span></span><br><span class="line">	<span class="keyword">let</span> inner = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">		args.<span class="title function_">push</span>(...<span class="variable language_">arguments</span>);</span><br><span class="line">		<span class="keyword">return</span> inner;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	inner.<span class="property">toString</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> args.<span class="title function_">reduce</span>(<span class="keyword">function</span> (<span class="params">prev, cur</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> prev + cur;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> inner;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add</span>(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E7%BA%AF%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E7%BA%AF%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">函数式编程--纯函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-29 20:58:21 / 修改时间：21:29:33" itemprop="dateCreated datePublished" datetime="2022-07-29T20:58:21+08:00">2022-07-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><ul>
+<li>​	函数返回的结果只依赖于它的参数，相同的输入始终得到相同的输出。</li>
+<li>​    函数执行过程里面没有副作用，也就是说不会依赖外部环境变量</li>
+</ul>
+<p>​	 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">resolver</span> = (<span class="params">...args</span>) =&gt; <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(args); <span class="comment">//将参数转换为字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//纯函数  1.可缓存 2.可测试</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">memoize</span>(<span class="params">func, resolver</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> cache = &#123;&#125;; <span class="comment">//用于缓存函数返回结果的对象</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> key = <span class="title function_">resolver</span>(...args);</span><br><span class="line">		<span class="keyword">if</span> (cache[key]) &#123;</span><br><span class="line">			<span class="keyword">return</span> cache[key];</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (cache[key] = <span class="title function_">func</span>(...args));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">func1</span>(<span class="params">num1, num2</span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;running func1&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,</span><br><span class="line">	b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func2 = <span class="title function_">memoize</span>(func1, resolver);		<span class="comment">//这个时候缓存结果的对象就在函数闭包中创建了</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//running func1  3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3 </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E9%97%AD%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/29/%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">闭包</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-29 09:58:21" itemprop="dateCreated datePublished" datetime="2022-07-29T09:58:21+08:00">2022-07-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-30 11:20:26" itemprop="dateModified" datetime="2022-07-30T11:20:26+08:00">2022-07-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="闭包（closure）"><a href="#闭包（closure）" class="headerlink" title="闭包（closure）"></a>闭包（closure）</h3><h4 id="闭包-x3D-环境-控制"><a href="#闭包-x3D-环境-控制" class="headerlink" title="闭包 &#x3D; 环境 + 控制"></a>闭包 &#x3D; 环境 + 控制</h4><p>​	    JavaScript中，以函数能访问其定义时的环境中的变量的方式得以实现。</p>
+<p>​		JavaScript有闭包的特性是因为作用域链的存在，使得内部函数在访问一个未定义的变量的时候，会沿着作用域链向外层查找。而作用域链是单向的，只能由内层往外层找，不能外层找。	  </p>
+<p>​		就是在控制函数外面套上一层函数，由外层函数提供环境，内层函数提供控制，模拟了私有变量的特性：外部取不到，只能在内部控制函数拿。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params">a</span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">inner</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">outer</span>(<span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>​	 应用场景：我们在函数里面经常需要维护一个外部的变量来保存当前执行的状态，比如说做一个分页的时候需要维护一个index，这个这个index的声明不能直接放在函数里面，这样就失去了保存状态的意义。放在全局变量里又会显得代码很杂乱，其他函数也能访问到，这不利于维护，因此，我们可以在函数外层再套一个函数，用于声明环境变量，然后在内层函数里面写相关的逻辑控制。</p>
+<p>​		</p>
+<p>​	 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**封装模块*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">CoolModule</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">&#x27;fang&#x27;</span></span><br><span class="line">    <span class="keyword">var</span> color = [<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">sayName</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        sayName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> outer = <span class="title class_">CoolModule</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(outer.<span class="title function_">sayName</span>())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   此时，color，name就相当于私有变量，sayName 就相当于对外暴露的函数</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fn</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo1</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">baz</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;fn : &#x27;</span>, a)</span><br><span class="line">    &#125;</span><br><span class="line">    fn = baz</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo1</span>()		<span class="comment">//将inner函数复制给外面的变量</span></span><br><span class="line"><span class="title function_">fn</span>()		<span class="comment">//调用外部变量，效果一致</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   立即执行函数会创建一个新的函数作用域，</span></span><br><span class="line"><span class="comment"> *   使得setTimeout的每一个回调函数都有一个独立的作用域</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">    (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> j = i</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;setTimeout : &#x27;</span>, j)</span><br><span class="line">        &#125;, <span class="number">0</span>)</span><br><span class="line">    &#125;)()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   let会劫持块作用域</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> u = <span class="number">1</span>; u &lt;= <span class="number">5</span>; u++) &#123;</span><br><span class="line">    <span class="keyword">let</span> v = u</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;setTimeout2&#x27;</span>, v)</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>正常函数里面的变量会在函数调用完之后销毁，</strong></p>
+<p><strong>但是如果使用了闭包，那么函数里面声明的变量就会被带出来，垃圾销毁机制就不能清理这个变量</strong></p>
+<p><strong>所以使用闭包有可能会导致内存泄漏的问题</strong></p>
+<p><strong>解决方式是在使用完变量之后，就要将变量名赋值为空，没有地方引用这个变量之后，垃圾销毁机制就会清除这个变量</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/19/%E6%80%A7%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -168,10 +658,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-19 17:18:21 / 修改时间：18:28:37" itemprop="dateCreated datePublished" datetime="2022-07-19T17:18:21+08:00">2022-07-19</time>
+              <time title="创建时间：2022-07-19 17:18:21" itemprop="dateCreated datePublished" datetime="2022-07-19T17:18:21+08:00">2022-07-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-30 11:47:14" itemprop="dateModified" datetime="2022-07-30T11:47:14+08:00">2022-07-30</time>
+              </span>
 
           
 
@@ -190,7 +686,7 @@
 <li>动画与操作性能</li>
 <li>内存、电量消耗</li>
 </ul>
-<h5 id="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。往往用户打开一个网页不愿意等待很久，如果等了一会浏览器还处于“白屏“状态，用户就会索性关掉网页。而动画、操作卡顿也会大大影响用户的使用心情。"><a href="#其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。往往用户打开一个网页不愿意等待很久，如果等了一会浏览器还处于“白屏“状态，用户就会索性关掉网页。而动画、操作卡顿也会大大影响用户的使用心情。" class="headerlink" title="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。往往用户打开一个网页不愿意等待很久，如果等了一会浏览器还处于“白屏“状态，用户就会索性关掉网页。而动画、操作卡顿也会大大影响用户的使用心情。"></a>其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。往往用户打开一个网页不愿意等待很久，如果等了一会浏览器还处于“白屏“状态，用户就会索性关掉网页。而动画、操作卡顿也会大大影响用户的使用心情。</h5><p>​	</p>
+<h5 id="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。"><a href="#其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。" class="headerlink" title="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。"></a>其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。</h5><p>​	</p>
 
       
     </div>
@@ -233,10 +729,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-19 10:40:26 / 修改时间：11:31:36" itemprop="dateCreated datePublished" datetime="2022-07-19T10:40:26+08:00">2022-07-19</time>
+              <time title="创建时间：2022-07-19 10:40:26" itemprop="dateCreated datePublished" datetime="2022-07-19T10:40:26+08:00">2022-07-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-20 01:08:11" itemprop="dateModified" datetime="2022-07-20T01:08:11+08:00">2022-07-20</time>
+              </span>
 
           
 
@@ -252,31 +754,36 @@
           <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>​	Flex布局支持横向和纵向。我们把Flex延伸的方向称为<strong>主轴</strong>，与主轴垂直的方向称为<strong>交叉轴</strong>。主轴开始的位置叫做main start，结束的位置叫做main end。交叉轴开始的位置叫做cross start，交叉轴结束的位置叫做cross end。</p>
 <p>​	Flex布局分为两个部分，Flex容器和 Flex-item</p>
 <h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>​	容器就是用来装需要进行布局的元素的父元素。</p>
-<h3 id="容器的属性"><a href="#容器的属性" class="headerlink" title="容器的属性"></a>容器的属性</h3><ul>
-<li><pre><code class="css"> flex-direction : row | row-reverse | column | column-reverse;  /*设置容器的主轴方向与起点 row是水平column是垂直*/
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   flex-wrap: nowrap | wrap | wrap-reverse;					/*设置容器的换行方式 nowrap是不换行，wrap是换行，wrap是倒着换行，也就是第一行在下面*/</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>&#96;&#96;&#96;css<br> flex-flow:<flex-direction> || <flex-wrap>				&#x2F;<em>flex-direction和flex-wrap的简写形式</em>&#x2F;</flex-wrap></flex-direction></p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   justify-content:flex-start | flex-end | center | space-between | space-around; /*item在主轴方向上的对齐方式*/</span><br></pre></td></tr></table></figure></li>
-</ul>
+<h3 id="容器的属性"><a href="#容器的属性" class="headerlink" title="容器的属性"></a>容器的属性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-direction</span> : row | row-reverse | column | column-reverse;  <span class="comment">/*设置容器的主轴方向与起点 row是水平column是垂直*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;					<span class="comment">/*设置容器的换行方式 nowrap是不换行，wrap是换行，wrap是倒着换行，也就是第一行在下面*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-flow</span>:&lt;flex-direction&gt; || &lt;flex-wrap&gt;				<span class="comment">/*flex-direction和flex-wrap的简写形式*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">justify-content</span>:flex-start | flex-end | center | space-between | space-around; <span class="comment">/*item在主轴方向上的对齐方式*/</span></span><br></pre></td></tr></table></figure>
+
 <img src="/2022/07/19/flex%E5%B8%83%E5%B1%80/bg2015071010.png" class title="bg2015071010">
 
-<ul>
-<li>&#96;&#96;&#96;css<br> align-items: flex-start | flex-end | center | baseline | stretch;  &#x2F;<em>item在交叉轴上的对齐方式</em>&#x2F; <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">{% asset_img bg2015071011.png bg2015071011 %}</span><br><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   align-content: flex-start | flex-end | center | space-between | space-around | stretch;/*定义多根轴线的对齐方式*/</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="item的属性"><a href="#item的属性" class="headerlink" title="item的属性"></a>item的属性</h3><ul>
-<li><pre><code class="css"> order : &lt;Integer&gt;    /*item的排列顺序，数字越小，排列越靠前，默认为0*/
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   flex-grow: &lt;number&gt;;  /*item放大比例 如果都设置为0就是不放大，都设置1就是等分剩余空间，不同item设置不同的话就是放大的比例大小 */</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><pre><code class="css"> flex-shrink: &lt;number&gt;; /* item缩小比例 默认为1，如果容器空间不足，都将等比例缩小；如果item设置为0，则其他缩小，这个不缩小 */
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   flex-basis: &lt;length&gt; | auto;  /* 定义分配多余空间之前，item占主轴空间。如果设置，item将固定空间 */</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>&#96;&#96;&#96;css<br> flex: none | [ &lt;’flex-grow’&gt; &lt;’flex-shrink’&gt;? || &lt;’flex-basis’&gt; ]		&#x2F;<em>简写</em>&#x2F;</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```css</span><br><span class="line">   align-self: auto | flex-start | flex-end | center | baseline | stretch;  /*将当前item设置为跟其他item不同的对齐方式，可以覆盖容器的align-item属性*/</span><br></pre></td></tr></table></figure></li>
-</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-items</span>: flex-start | flex-end | center | baseline | stretch;  <span class="comment">/*item在交叉轴上的对齐方式*/</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2022/07/19/flex%E5%B8%83%E5%B1%80/bg2015071011.png" class title="bg2015071011">
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around | stretch;<span class="comment">/*定义多根轴线的对齐方式*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="item的属性"><a href="#item的属性" class="headerlink" title="item的属性"></a>item的属性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">order</span> : &lt;Integer&gt;    <span class="comment">/*item的排列顺序，数字越小，排列越靠前，默认为0*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-grow</span>: &lt;number&gt;;  <span class="comment">/*item放大比例 如果都设置为0就是不放大，都设置1就是等分剩余空间，不同item设置不同的话就是放大的比例大小 */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-shrink</span>: &lt;number&gt;; <span class="comment">/* item缩小比例 默认为1，如果容器空间不足，都将等比例缩小；如果item设置为0，则其他缩小，这个不缩小 */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-basis</span>: &lt;length&gt; | auto;  <span class="comment">/* 定义分配多余空间之前，item占主轴空间。如果设置，item将固定空间 */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: none | [ &lt;<span class="string">&#x27;flex-grow&#x27;</span>&gt; &lt;<span class="string">&#x27;flex-shrink&#x27;</span>&gt;? || &lt;<span class="string">&#x27;flex-basis&#x27;</span>&gt; ]		<span class="comment">/*简写*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-self</span>: auto | flex-start | flex-end | center | baseline | stretch;  <span class="comment">/*将当前item设置为跟其他item不同的对齐方式，可以覆盖容器的align-item属性*/</span></span><br></pre></td></tr></table></figure>
+
+
+
 
       
     </div>
@@ -362,543 +869,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/meta%E6%A0%87%E7%AD%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/18/meta%E6%A0%87%E7%AD%BE/" class="post-title-link" itemprop="url">meta标签</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-18 09:38:26 / 修改时间：12:38:12" itemprop="dateCreated datePublished" datetime="2022-07-18T09:38:26+08:00">2022-07-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	meta标签时一组键值对，它是一种通用的元信息表示标签。比如描述、针对搜索引擎的关键词以及刷新频率。</p>
-<p>​	meta标签是放在head标签里面的，它可以有任意多个。一般的meta标签由name和content两个属性来定义。name表示元信息的key，content表示元信息的value。</p>
-<p>​	常用的meta元素定义的元数据的类型包括以下几种：</p>
-<ul>
-<li>如果设置了name属性，meta元素提供的是文档级别的元数据，应用于整个页面</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;description&quot;</span> <span class="attr">content</span>=<span class="string">&quot;this is a Blog&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;index,follow&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>如果设置了 http-equiv 属性，meta元素则是编译指令，提供的信息与类似命名的HTTP头部相同</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;refresh&quot;</span> <span class="attr">content</span>=<span class="string">&quot;30&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 每30秒刷新一次文档 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge,chrome=1&quot;</span> /&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>如果设置了charset属性，meta元素是一个字符集声明，告诉文档哪种字符编码。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--使用UTF-8编码--&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/CSS%E4%B8%AD%E5%B8%A6%20%20@%20%E7%9A%84%E8%A7%84%E5%88%99%20/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/18/CSS%E4%B8%AD%E5%B8%A6%20%20@%20%E7%9A%84%E8%A7%84%E5%88%99%20/" class="post-title-link" itemprop="url">css中带 @ 的规则</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-18 09:16:26 / 修改时间：09:35:34" itemprop="dateCreated datePublished" datetime="2022-07-18T09:16:26+08:00">2022-07-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	在CSS中，可以将规则分为两种：带@的规则和普通规则。带@的规则都不需要选择器，而普通规则则需要配合选择器使用。</p>
-<p>​	常用的带@的规则有</p>
-<ul>
-<li>@charset</li>
-<li>@import</li>
-<li>@media</li>
-<li>@key-frames</li>
-<li>@font-face</li>
-</ul>
-<h4 id="charset"><a href="#charset" class="headerlink" title="@charset"></a>@charset</h4><p>​	@charset时用于提示CSS文件使用的字符编码方式，必须出现在CSS文件的最前面，这个规则不影响页面上的展示效果。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@charset</span> <span class="string">&quot;urf-8&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h4><p>​	@import用于引入一个外部CSS文件，除了@charset规则不会被引入，@import可以引入另外一个CSS文件的全部内容。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> url(<span class="string">&quot;localhost:3000/base.css&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<h4 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h4><p>​	@media就是媒体查询使用的规则，它能够对设备的类型进行判断。可以根据不同的设备匹配不同的样式规则。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> <span class="keyword">not</span>|<span class="keyword">only</span> mediatype <span class="keyword">and</span> (expressions) &#123;</span><br><span class="line">  CSS-<span class="selector-tag">Code</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="key-frames"><a href="#key-frames" class="headerlink" title="@key-frames"></a>@key-frames</h4><p>​	@key-frames用于定义动画的关键帧，通常配合animation规则使用</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 动画代码 */</span></span><br><span class="line"><span class="keyword">@keyframes</span> example &#123;</span><br><span class="line">  <span class="selector-tag">from</span> &#123;<span class="attribute">background-color</span>: red;&#125;</span><br><span class="line">  <span class="selector-tag">to</span> &#123;<span class="attribute">background-color</span>: yellow;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 向此元素应用动画效果 */</span></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">  <span class="attribute">animation-name</span>: example;</span><br><span class="line">  <span class="attribute">animation-duration</span>: <span class="number">4s</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="font-face"><a href="#font-face" class="headerlink" title="@font-face"></a>@font-face</h4><p>​	@font-face用于定义一种字体，阿里巴巴矢量图标库的icon-font就是利用这个特性实现的</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: Gentium;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">http://example.com/fonts/Gentium.woff</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123; <span class="attribute">font-family</span>: Gentium, serif; &#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/" class="post-title-link" itemprop="url">MVC和MVVM的关系</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-15 11:23:10 / 修改时间：11:30:31" itemprop="dateCreated datePublished" datetime="2022-07-15T11:23:10+08:00">2022-07-15</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	mvc是服务端的概念，mvvｍ是客户端的概念，他们不能相提并论。</p>
-<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>​	mvc是后端逻辑分层的概念，可以分为m（model），v（view）,c（controller）三大部分。</p>
-<h3 id="view"><a href="#view" class="headerlink" title="view"></a>view</h3><p>​		view就是视图层的意思，也就是前端页面，视图层 （v）和 控制器（c）通过 http 协议 进行通信，由view请求controler提供的的api接口（request），然后控制器（c）收到请求（request）之后，经过路由（router）将request分发</p>
-<h3 id="controler"><a href="#controler" class="headerlink" title="controler"></a>controler</h3><p>​		controler就是控制器的意思，通常在基于node.js的接口开发里面，有路由分发模块（router）、 中间件模块（middleware）、控制器模块（controler），这三个模块都属于controler层。从 view 发送到后端的 <strong>请求</strong>  （request）会先到达入口文件（app.js）,入口文件收到<strong>请求</strong>之后会调用路由模块（router）进行路由分发,经过路由分发之后,<strong>请求</strong>会经过中间件(middleware) 进行相应的处理,处理之后会到达controler模块,controler模块会根据<strong>请求</strong> 调用 数据模型模块（model）,结合model里面的数据并进行逻辑处理之后就会将数据 以http response 的方式返回给 视图层（view）</p>
-<h3 id="model"><a href="#model" class="headerlink" title="model"></a>model</h3><p>​			model就是数据模型的意思，它是职能单一的，只负责数据库的操作，执行sql语句，进行数据的增、删、改、查 。 数据模型里面对增删改查等操作进行了封装，并对外部暴露了封装好之后的方法，使得controler在对数据库操作的时候不需要每次都写sql语句。同时，model也负责连接数据库。</p>
-<img src="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/image-20220603234002353-16578558177721.png" class title="image-20220603234002353">
-
-<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVＭ"></a>MVVＭ</h2><p>​		mｖｖｍ是前端的逻辑分层概念。可以分为三层：每个页面保存的数据模型（ｍ）数据调度者（ｍｖ）视图层（ｖ）。</p>
-<h3 id="model-1"><a href="#model-1" class="headerlink" title="model"></a>model</h3><p>​				当用户打开一个页面的时候，页面会向服务器发送请求，并将数据保存在本地。这些数据就是当前页面的数据模型。数据模型要显示到页面上的话就要将数据给到ｍｖ。在ｖｕｅ中，响应式数据功能实现了ｍｏｄｅｌ和ｍｏｄｅｌｖｉｅｗ的数据双向绑定</p>
-<h3 id="modelview"><a href="#modelview" class="headerlink" title="modelview"></a>modelview</h3><p>​				当<strong>数据</strong>从服务器下载到本地之后，<strong>数据</strong>就会流向ｍｖ模型，然后由ｍｖ模型决定什么时候将<strong>数据</strong>渲染到<strong>视图层</strong>。当ｍｖ拿到来自于页面的数据之后，也会将数据保存到数据模型中去。在ｖｕｅ中，框架所做的事情就相当于这里的数据调度者。ｖｕｅ框架实现了与ｖｉｅｗ之间的数据双向绑定</p>
-<h3 id="view-1"><a href="#view-1" class="headerlink" title="view"></a>view</h3><p>​				视图层负责将来自于ｍｖ的数据显示到页面上来。当用户触发页面监听的事件，输入数据之后，将数据返回给数据调度模型（ｍｖ）。</p>
-<img src="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/image-20220604002305490-16578558252172.png" class>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">localStorage和sessionstorage的区别</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-14 23:20:26" itemprop="dateCreated datePublished" datetime="2022-07-14T23:20:26+08:00">2022-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-19 10:01:02" itemprop="dateModified" datetime="2022-07-19T10:01:02+08:00">2022-07-19</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Web Storage出现的目的是为了解决通过客户端存储解决与服务器通信频繁使用Cookie的问题。</p>
-<h4 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h4><p>sessionStorage是跨会话的存储机制，这意味着数据只会存储到浏览器关闭。存储在sessionStorage中的数据不受刷新的影响，可以在浏览器崩溃重启之后恢复。</p>
-<h4 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h4><p>localStorage是永久存储机制，也就是说当浏览器关闭了之后，存储的数据依然在。要访问同一个localStorage对象，页面必须来自同一个域（子域不可以）、相同端口上使用相同的协议。</p>
-<p>​	浏览器给Web Storage使用的空间大小给出了限制，一般会限制每个源5MB。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/" class="post-title-link" itemprop="url">inline-block的一个小陷阱</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-14 23:20:26" itemprop="dateCreated datePublished" datetime="2022-07-14T23:20:26+08:00">2022-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-18 17:44:21" itemprop="dateModified" datetime="2022-07-18T17:44:21+08:00">2022-07-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	有时候我们需要将几个块级元素横向流动，于是就会将他们CSS的display属性设置为inline-block</p>
-<p>​	</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.inner</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">33.33%</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">display</span>: inline-block;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">outline</span>: solid <span class="number">1px</span> blue;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>但是效果是这样的</p>
-<img src="/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/image-20220718154216731.png" class title="image-20220718154216731">
-
-<p>这是因为在HTML中，我们的div标签换行了，也就是说HTML在解析的时候，会解析我们的换行操作。为了解决这个问题，有以下解决方法</p>
-<ul>
-<li>将标签都写在同一行</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>给父元素的font-size设置为0</li>
-</ul>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span>&#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/14/CSS%E9%80%89%E6%8B%A9%E5%99%A8%E5%92%8C%E4%BC%98%E5%85%88%E7%BA%A7/" class="post-title-link" itemprop="url">css选择器和优先级</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-14 20:47:26 / 修改时间：23:19:05" itemprop="dateCreated datePublished" datetime="2022-07-14T20:47:26+08:00">2022-07-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="常用的CSS选择器有"><a href="#常用的CSS选择器有" class="headerlink" title="常用的CSS选择器有"></a>常用的CSS选择器有</h4><ol>
-<li>元素选择器 （权重 1）</li>
-<li>群组选择器 （   h2 , p {}  右边花括号里面的规则应用到左边两个选择器上）</li>
-<li>通用选择器 （权重0  * { }  ）</li>
-<li>类选择器     （权重10    .class-name { } ） </li>
-<li>ID选择器     （权重100   #id { } ）</li>
-<li>后代选择器   （h2 p { } ）</li>
-<li>子元素选择器  （h2 &gt; p { }）</li>
-<li>兄弟选择器 ( h2 + p { }  意思是p元素紧跟在h2元素后面，且同属于一个父元素)</li>
-<li>后续兄弟选择器 ( h2 ~ p { } 意思是同一父元素下所有在h2元素后面的p元素)</li>
-<li>伪类选择器</li>
-<li>伪元素选择器</li>
-</ol>
-<p>​		当有多条规则作用于同一个元素是，渲染引擎就会计算不同规则的权重，由权重最高的那一条规则生效。</p>
-<p>css权重的计算就是每出现一个相应权重的选择器，就将它的权值加入总权重当中来。</p>
-<p>​		当元素脱离正常的文档流时，元素之间就会互相堆叠，可以通过设置z-index属性来控制堆叠的顺序。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/14/%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98/" class="post-title-link" itemprop="url">回流和重绘</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-14 19:58:21" itemprop="dateCreated datePublished" datetime="2022-07-14T19:58:21+08:00">2022-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-19 09:59:06" itemprop="dateModified" datetime="2022-07-19T09:59:06+08:00">2022-07-19</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	通常浏览器的渲染过程可以分为一下几部分：</p>
-<ol>
-<li>HTML被HTML解析器解析成DOM Tree</li>
-<li>CSS被CSS解析器解析成CSSOM Tree</li>
-<li>DOM Tree 和 CSSOM Tree 解析完成之后合并在一起形成 Render Tree</li>
-<li>渲染绘制</li>
-</ol>
-<p>如果将元素设置为display : none 的话，元素就不会被被添加到 Render Tree中，也就是不会被渲染。</p>
-<h4 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h4><p>​	当我们通过JavaScript或者CSS改变了元素的宽度、高度、内外边距等，改变了页面的布局，浏览器就会发生回流，相当于刷新页面，对性能消耗比较大。</p>
-<h4 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h4><p>​	当元素的属性发生改变，但是不影响布局的话，比如说颜色，字体样式等等，就会产生重绘，不刷新页面，动态更新内容。对性能消耗相对比回流小。</p>
-<h4 id="怎样减少回流和重绘？"><a href="#怎样减少回流和重绘？" class="headerlink" title="怎样减少回流和重绘？"></a>怎样减少回流和重绘？</h4><p>​	尽量使用transform代替位移，使用visibility代替display:none，当使用img标签显示图片的时候，最好给图片同时设置宽高，只设置宽或者高的话会引起重绘。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -964,12 +938,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
