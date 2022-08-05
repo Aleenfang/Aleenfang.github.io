@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="分包为了加快小程序的加载速度，一般会将小程序分为多个模块，依次加载。  主包 主包包含tabBar页面资源，公共资源   分包 分包包含非tabBar的页面，私有资源    加载策略 ​	在小程序启动时，默认下载主包并启动主包里面的页面，也就是tabBar 当用户进入分包的某个页面的时候，客户端会把对应的分包下载下来，下载完成之后再展示，也就是按需加载  分包的体积限制 整个小程序的所有分包大小不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序--分包">
+<meta property="og:url" content="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/index.html">
+<meta property="og:site_name" content="fang 的 little blog">
+<meta property="og:description" content="分包为了加快小程序的加载速度，一般会将小程序分为多个模块，依次加载。  主包 主包包含tabBar页面资源，公共资源   分包 分包包含非tabBar的页面，私有资源    加载策略 ​	在小程序启动时，默认下载主包并启动主包里面的页面，也就是tabBar 当用户进入分包的某个页面的时候，客户端会把对应的分包下载下来，下载完成之后再展示，也就是按需加载  分包的体积限制 整个小程序的所有分包大小不">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-03T12:18:21.000Z">
+<meta property="article:modified_time" content="2022-08-05T07:53:07.459Z">
+<meta property="article:author" content="fang">
+<meta property="article:tag" content="微信小程序">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>微信小程序--分包 | fang 的 little blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">fang 的 little blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          微信小程序--分包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 20:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T20:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 15:53:07" itemprop="dateModified" datetime="2022-08-05T15:53:07+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="分包"><a href="#分包" class="headerlink" title="分包"></a>分包</h1><p>为了加快小程序的加载速度，一般会将小程序分为多个模块，依次加载。</p>
+<ol>
+<li><h3 id="主包"><a href="#主包" class="headerlink" title="主包"></a>主包</h3><ol>
+<li>主包包含tabBar页面资源，公共资源</li>
+</ol>
+</li>
+<li><h3 id="分包-1"><a href="#分包-1" class="headerlink" title="分包"></a>分包</h3><ol>
+<li>分包包含非tabBar的页面，私有资源</li>
+</ol>
+</li>
+</ol>
+<h2 id="加载策略"><a href="#加载策略" class="headerlink" title="加载策略"></a>加载策略</h2><ol>
+<li>​	在小程序启动时，默认下载主包并启动主包里面的页面，也就是tabBar</li>
+<li>当用户进入分包的某个页面的时候，客户端会把对应的分包下载下来，下载完成之后再展示，也就是按需加载</li>
+</ol>
+<h2 id="分包的体积限制"><a href="#分包的体积限制" class="headerlink" title="分包的体积限制"></a>分包的体积限制</h2><ul>
+<li>整个小程序的所有分包大小不超过16M</li>
+<li>单个主包、分包大小不超过2M</li>
+</ul>
+<h2 id="使用规则"><a href="#使用规则" class="headerlink" title="使用规则"></a>使用规则</h2><ul>
+<li>主包放在主文件夹的pages文件夹里</li>
+<li>分包放在主文件加内的分包文件夹里</li>
+<li>在app.json里设置的时候 ， 主包 在pages选项里声明，分包在subpackages里面声明</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;pages/home/home&quot;</span><span class="punctuation">,</span></span><br><span class="line">		 <span class="string">&quot;...&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;subpackages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;root&quot;</span><span class="punctuation">:</span><span class="string">&quot;packageA&quot;</span><span class="punctuation">,</span></span><br><span class="line">             <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">                 <span class="string">&quot;pages/cat&quot;</span><span class="punctuation">,</span></span><br><span class="line">                 <span class="string">&quot;pages/dog&quot;</span></span><br><span class="line">             <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;root&quot;</span><span class="punctuation">:</span><span class="string">&quot;packageB&quot;</span><span class="punctuation">,</span></span><br><span class="line">             <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">                 <span class="string">&quot;pages/apple&quot;</span><span class="punctuation">,</span></span><br><span class="line">                 <span class="string">&quot;pages/xiaomi&quot;</span></span><br><span class="line">             <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="打包规则"><a href="#打包规则" class="headerlink" title="打包规则"></a>打包规则</h2><ol>
+<li><h4 id="小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中"><a href="#小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中" class="headerlink" title="小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中"></a>小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中</h4></li>
+<li><h4 id="主包也可以有自己的paegs，也就是-app-json里面最外层的pages"><a href="#主包也可以有自己的paegs，也就是-app-json里面最外层的pages" class="headerlink" title="主包也可以有自己的paegs，也就是 app.json里面最外层的pages"></a>主包也可以有自己的paegs，也就是 app.json里面最外层的pages</h4></li>
+<li><h4 id="tabBar页面必须在主包内"><a href="#tabBar页面必须在主包内" class="headerlink" title="tabBar页面必须在主包内"></a>tabBar页面必须在主包内</h4></li>
+<li><h4 id="分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面"><a href="#分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面" class="headerlink" title="分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面"></a>分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面</h4></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"># 微信小程序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--MobX/" rel="prev" title="微信小程序--Mobx">
+      <i class="fa fa-chevron-left"></i> 微信小程序--Mobx
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">分包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%8C%85"><span class="nav-number">1.0.1.</span> <span class="nav-text">主包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%8C%85-1"><span class="nav-number">1.0.2.</span> <span class="nav-text">分包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.</span> <span class="nav-text">加载策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%85%E7%9A%84%E4%BD%93%E7%A7%AF%E9%99%90%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">分包的体积限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">使用规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E8%A7%84%E5%88%99"><span class="nav-number">1.4.</span> <span class="nav-text">打包规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BC%9A%E6%8C%89subpackages%E7%9A%84%E9%85%8D%E7%BD%AE%E8%BF%9B%E8%A1%8C%E5%88%86%E5%8C%85%EF%BC%8Csubpackages%E4%B9%8B%E5%A4%96%E7%9A%84%E7%9B%AE%E5%BD%95%E5%B0%86%E8%A2%AB%E6%89%93%E5%8C%85%E5%88%B0%E4%B8%BB%E5%8C%85%E4%B8%AD"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%8C%85%E4%B9%9F%E5%8F%AF%E4%BB%A5%E6%9C%89%E8%87%AA%E5%B7%B1%E7%9A%84paegs%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF-app-json%E9%87%8C%E9%9D%A2%E6%9C%80%E5%A4%96%E5%B1%82%E7%9A%84pages"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">主包也可以有自己的paegs，也就是 app.json里面最外层的pages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tabBar%E9%A1%B5%E9%9D%A2%E5%BF%85%E9%A1%BB%E5%9C%A8%E4%B8%BB%E5%8C%85%E5%86%85"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">tabBar页面必须在主包内</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%8C%85%E4%B9%8B%E9%97%B4%E4%B8%8D%E8%83%BD%E5%B5%8C%E5%A5%97%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E8%AF%B4%E5%88%86%E5%8C%85%E9%87%8C%E4%B8%8D%E8%83%BD%E5%86%8D%E6%9C%89%E5%88%86%E5%8C%85%EF%BC%8C%E4%BD%86%E6%98%AF%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%BE%88%E5%A4%9A%E4%B8%AA%E9%A1%B5%E9%9D%A2"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">fang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">在vue中父组件给子组件传值数据丢失问题中</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/" class="post-title-link" itemprop="url">微信小程序--分包</a>
         </h2>
 
         <div class="post-meta">
@@ -168,10 +168,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-30 12:10:26 / 修改时间：12:25:42" itemprop="dateCreated datePublished" datetime="2022-07-30T12:10:26+08:00">2022-07-30</time>
+              <time title="创建时间：2022-08-03 20:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T20:18:21+08:00">2022-08-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 15:53:07" itemprop="dateModified" datetime="2022-08-05T15:53:07+08:00">2022-08-05</time>
+              </span>
 
           
 
@@ -184,141 +190,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="错误场景"><a href="#错误场景" class="headerlink" title="错误场景"></a>错误场景</h4><p>​	在vue中，父组件给子组件传的值需要异步获取，在浏览器刷新之后，这可能会造成子组件报错  can not read data  not defined ，子组件报没拿到父组件传过来的值，但是我拿vue develop tools 查看子组件，却可以看到从父组件传过来的值，子组件却没有将值渲染出来。</p>
-<h4 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h4><p>​	当浏览器刷新之后，整个vue实例就会被重新加载，父组件就会调用API 重新发送网络请求，但是这个时候问题来了，网络请求是异步的，当子组件已经开始渲染的时候父组件还没有拿到数据，所以子组件就会报错。</p>
-<p>​	还有一种情况，如果数据的对象比较大，可能浅层的数据已经可以拿到了，但是深层的数据还是undefined。</p>
-<p>​	所以我的解决办法就是给子组件加上一个 v-if  条件就是需要传给子组件的数据，因为浅层数据拿到的时候深层数据不一定拿到，所以最好是将深层数据作为条件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line"> &lt;div class=&quot;playlist-detail&quot; v-if=&quot;playlist.creator&quot;&gt;</span><br><span class="line">        &lt;PlayListDetailTop :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line">        &lt;ItemPlaylist :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">const playlist = ref(&#123;&#125;)</span><br><span class="line">const isLoading = ref(true)</span><br><span class="line"></span><br><span class="line">onMounted(async () =&gt; &#123;</span><br><span class="line">    const id = useRoute().query.id         //通过路由获取歌单id</span><br><span class="line">    const res = await getPlayListDetail(id)</span><br><span class="line">    isLoading.value = false</span><br><span class="line">    playlist.value = res.data.playlist</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">transform中rotate和translate混用的问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:59:26 / 修改时间：12:03:34" itemprop="dateCreated datePublished" datetime="2022-07-30T11:59:26+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>transform可以在浏览器不用reLayout的情况下移动元素的位置，对动画性能比较友好。</p>
-<p>​	其中，translate是使元素平移，rotate是使元素旋转</p>
-<p>​	在旋转的时候，会将元素的 x， y轴跟着一起旋转，所以当面临混用的情况，就可以将translate放在前面，rotate放在后面，这样就会先平移再旋转，不会影响到translate</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">20px</span>,<span class="number">20px</span>) <span class="built_in">rotate</span>(<span class="number">90deg</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">遍历数组的两种常用方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:39:21 / 修改时间：11:46:50" itemprop="dateCreated datePublished" datetime="2022-07-30T11:39:21+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-Array-prototype-forEach-callback-item-index-array"><a href="#1-Array-prototype-forEach-callback-item-index-array" class="headerlink" title="1. Array.prototype.forEach( callback(item,index,array )  )"></a>1. Array.prototype.forEach( callback(item,index,array )  )</h4><p>​	forEach传入一个回调函数，回调函数有3个参数</p>
+          <h1 id="分包"><a href="#分包" class="headerlink" title="分包"></a>分包</h1><p>为了加快小程序的加载速度，一般会将小程序分为多个模块，依次加载。</p>
 <ol>
-<li>当前遍历的value</li>
-<li>当前value的下标</li>
-<li>当前遍历的array</li>
+<li><h3 id="主包"><a href="#主包" class="headerlink" title="主包"></a>主包</h3><ol>
+<li>主包包含tabBar页面资源，公共资源</li>
 </ol>
-<h4 id="2-Array-prototype-map-callback-item-index-array"><a href="#2-Array-prototype-map-callback-item-index-array" class="headerlink" title="2. Array.prototype.map(callback(item,index,array ) )"></a>2. Array.prototype.map(callback(item,index,array ) )</h4><p>​	map参数跟forEach一样</p>
-<h3 id="map-和-forEach的区别："><a href="#map-和-forEach的区别：" class="headerlink" title="map 和  forEach的区别："></a>map 和  forEach的区别：</h3><p>map 会根据回调函数的返回值返回一个新的数组，如果回调函数返回true，就会把当前遍历的value添加到新数组中去，返回false就不添加，而forEach函数没有返回值</p>
+</li>
+<li><h3 id="分包-1"><a href="#分包-1" class="headerlink" title="分包"></a>分包</h3><ol>
+<li>分包包含非tabBar的页面，私有资源</li>
+</ol>
+</li>
+</ol>
+<h2 id="加载策略"><a href="#加载策略" class="headerlink" title="加载策略"></a>加载策略</h2><ol>
+<li>​	在小程序启动时，默认下载主包并启动主包里面的页面，也就是tabBar</li>
+<li>当用户进入分包的某个页面的时候，客户端会把对应的分包下载下来，下载完成之后再展示，也就是按需加载</li>
+</ol>
+<h2 id="分包的体积限制"><a href="#分包的体积限制" class="headerlink" title="分包的体积限制"></a>分包的体积限制</h2><ul>
+<li>整个小程序的所有分包大小不超过16M</li>
+<li>单个主包、分包大小不超过2M</li>
+</ul>
+<h2 id="使用规则"><a href="#使用规则" class="headerlink" title="使用规则"></a>使用规则</h2><ul>
+<li>主包放在主文件夹的pages文件夹里</li>
+<li>分包放在主文件加内的分包文件夹里</li>
+<li>在app.json里设置的时候 ， 主包 在pages选项里声明，分包在subpackages里面声明</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;pages/home/home&quot;</span><span class="punctuation">,</span></span><br><span class="line">		 <span class="string">&quot;...&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;subpackages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;root&quot;</span><span class="punctuation">:</span><span class="string">&quot;packageA&quot;</span><span class="punctuation">,</span></span><br><span class="line">             <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">                 <span class="string">&quot;pages/cat&quot;</span><span class="punctuation">,</span></span><br><span class="line">                 <span class="string">&quot;pages/dog&quot;</span></span><br><span class="line">             <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;root&quot;</span><span class="punctuation">:</span><span class="string">&quot;packageB&quot;</span><span class="punctuation">,</span></span><br><span class="line">             <span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">                 <span class="string">&quot;pages/apple&quot;</span><span class="punctuation">,</span></span><br><span class="line">                 <span class="string">&quot;pages/xiaomi&quot;</span></span><br><span class="line">             <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="打包规则"><a href="#打包规则" class="headerlink" title="打包规则"></a>打包规则</h2><ol>
+<li><h4 id="小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中"><a href="#小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中" class="headerlink" title="小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中"></a>小程序会按subpackages的配置进行分包，subpackages之外的目录将被打包到主包中</h4></li>
+<li><h4 id="主包也可以有自己的paegs，也就是-app-json里面最外层的pages"><a href="#主包也可以有自己的paegs，也就是-app-json里面最外层的pages" class="headerlink" title="主包也可以有自己的paegs，也就是 app.json里面最外层的pages"></a>主包也可以有自己的paegs，也就是 app.json里面最外层的pages</h4></li>
+<li><h4 id="tabBar页面必须在主包内"><a href="#tabBar页面必须在主包内" class="headerlink" title="tabBar页面必须在主包内"></a>tabBar页面必须在主包内</h4></li>
+<li><h4 id="分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面"><a href="#分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面" class="headerlink" title="分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面"></a>分包之间不能嵌套，也就是说分包里不能再有分包，但是可以有很多个页面</h4></li>
+</ol>
 
       
     </div>
@@ -338,7 +241,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--MobX/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -352,212 +255,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/" class="post-title-link" itemprop="url">将一个数组中的元素复制到另一个数组中的方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:29:21 / 修改时间：11:38:31" itemprop="dateCreated datePublished" datetime="2022-07-30T11:29:21+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id><a href="#" class="headerlink" title></a></h2><h4 id="1-展开运算符"><a href="#1-展开运算符" class="headerlink" title="1. 展开运算符"></a>1. 展开运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">arr1.<span class="title function_">push</span>(...arr2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开"><a href="#2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开" class="headerlink" title="2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开"></a>2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> array2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">array1.<span class="property">push</span>.<span class="title function_">apply</span>(array1,array2)</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/" class="post-title-link" itemprop="url">函数式编程--函数柯里化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-29 21:29:21 / 修改时间：21:36:45" itemprop="dateCreated datePublished" datetime="2022-07-29T21:29:21+08:00">2022-07-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h2><p>​	函数柯里化就是在函数里面返回函数</p>
-<ul>
-<li><h4 id="可以实现函数参数的复用"><a href="#可以实现函数参数的复用" class="headerlink" title="可以实现函数参数的复用"></a>可以实现函数参数的复用</h4></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   可以实现函数参数的复用</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">url_curring</span>(<span class="params">protocol</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">hostname, pathname</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;protocol&#125;</span><span class="subst">$&#123;hostname&#125;</span><span class="subst">$&#123;pathname&#125;</span>`</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url_https = <span class="title function_">url_curring</span>(<span class="string">&quot;https://&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url_1 = <span class="title function_">url_https</span>(<span class="string">&quot;www.huangkuang&quot;</span>, <span class="string">&quot;.com&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> url_2 = <span class="title function_">url_https</span>(<span class="string">&quot;aleenfang.github&quot;</span>, <span class="string">&quot;.io&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_https);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_1); <span class="comment">// https://www.huangkuang.com</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url_2); <span class="comment">//  https://aleenfang.github.io</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><h4 id="兼容性检测"><a href="#兼容性检测" class="headerlink" title="兼容性检测"></a>兼容性检测</h4></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">whichEvent = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">addEventListener</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">element, type, listener, useCapture</span>) &#123;</span><br><span class="line">			element.<span class="title function_">addEventListener</span>(</span><br><span class="line">				type,</span><br><span class="line">				<span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">					listener.<span class="title function_">call</span>(element, e);</span><br><span class="line">				&#125;,</span><br><span class="line">				useCapture</span><br><span class="line">			);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">attachEvent</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">element, type, handler</span>) &#123;</span><br><span class="line">			element.<span class="title function_">attachEvent</span>(<span class="string">&quot;on&quot;</span> + type, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">				handler.<span class="title function_">call</span>(element, e);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)();		</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><h4 id="延迟执行"><a href="#延迟执行" class="headerlink" title="延迟执行"></a>延迟执行</h4></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> args = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">slice</span>.<span class="title function_">call</span>(<span class="variable language_">arguments</span>);   <span class="comment">//将arguments对象转换为shu</span></span><br><span class="line">	<span class="keyword">let</span> inner = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">		args.<span class="title function_">push</span>(...<span class="variable language_">arguments</span>);</span><br><span class="line">		<span class="keyword">return</span> inner;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	inner.<span class="property">toString</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> args.<span class="title function_">reduce</span>(<span class="keyword">function</span> (<span class="params">prev, cur</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> prev + cur;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> inner;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add</span>(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E7%BA%AF%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/29/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B--%E7%BA%AF%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">函数式编程--纯函数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-29 20:58:21 / 修改时间：21:29:33" itemprop="dateCreated datePublished" datetime="2022-07-29T20:58:21+08:00">2022-07-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><ul>
-<li>​	函数返回的结果只依赖于它的参数，相同的输入始终得到相同的输出。</li>
-<li>​    函数执行过程里面没有副作用，也就是说不会依赖外部环境变量</li>
-</ul>
-<p>​	 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">resolver</span> = (<span class="params">...args</span>) =&gt; <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(args); <span class="comment">//将参数转换为字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//纯函数  1.可缓存 2.可测试</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">memoize</span>(<span class="params">func, resolver</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> cache = &#123;&#125;; <span class="comment">//用于缓存函数返回结果的对象</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> key = <span class="title function_">resolver</span>(...args);</span><br><span class="line">		<span class="keyword">if</span> (cache[key]) &#123;</span><br><span class="line">			<span class="keyword">return</span> cache[key];</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (cache[key] = <span class="title function_">func</span>(...args));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">func1</span>(<span class="params">num1, num2</span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;running func1&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,</span><br><span class="line">	b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func2 = <span class="title function_">memoize</span>(func1, resolver);		<span class="comment">//这个时候缓存结果的对象就在函数闭包中创建了</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//running func1  3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3 </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">func2</span>(<span class="number">1</span>, <span class="number">2</span>));           <span class="comment">//3 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/29/%E9%97%AD%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/29/%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">闭包</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--MobX/" class="post-title-link" itemprop="url">微信小程序--Mobx</a>
         </h2>
 
         <div class="post-meta">
@@ -567,14 +265,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-07-29 09:58:21" itemprop="dateCreated datePublished" datetime="2022-07-29T09:58:21+08:00">2022-07-29</time>
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-30 11:20:26" itemprop="dateModified" datetime="2022-07-30T11:20:26+08:00">2022-07-30</time>
+                <time title="修改时间：2022-08-05 16:28:04" itemprop="dateModified" datetime="2022-08-05T16:28:04+08:00">2022-08-05</time>
               </span>
 
           
@@ -588,34 +286,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="闭包（closure）"><a href="#闭包（closure）" class="headerlink" title="闭包（closure）"></a>闭包（closure）</h3><h4 id="闭包-x3D-环境-控制"><a href="#闭包-x3D-环境-控制" class="headerlink" title="闭包 &#x3D; 环境 + 控制"></a>闭包 &#x3D; 环境 + 控制</h4><p>​	    JavaScript中，以函数能访问其定义时的环境中的变量的方式得以实现。</p>
-<p>​		JavaScript有闭包的特性是因为作用域链的存在，使得内部函数在访问一个未定义的变量的时候，会沿着作用域链向外层查找。而作用域链是单向的，只能由内层往外层找，不能外层找。	  </p>
-<p>​		就是在控制函数外面套上一层函数，由外层函数提供环境，内层函数提供控制，模拟了私有变量的特性：外部取不到，只能在内部控制函数拿。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params">a</span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">inner</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">outer</span>(<span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+          <ul>
+<li><h4 id="mobx-miniprogram-创建Store实例对象"><a href="#mobx-miniprogram-创建Store实例对象" class="headerlink" title="mobx-miniprogram          创建Store实例对象"></a>mobx-miniprogram          创建Store实例对象</h4></li>
+<li><h4 id="mobx-miniprogram-bindings-把Store中的共享数据或方法绑定到组件或页面中使用"><a href="#mobx-miniprogram-bindings-把Store中的共享数据或方法绑定到组件或页面中使用" class="headerlink" title="mobx-miniprogram-bindings        把Store中的共享数据或方法绑定到组件或页面中使用"></a>mobx-miniprogram-bindings        把Store中的共享数据或方法绑定到组件或页面中使用</h4></li>
+</ul>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/////store.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;observable,action&#125; <span class="keyword">from</span> <span class="string">&#x27;mobx-miniprogram&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> store = <span class="title function_">observable</span>(&#123;</span><br><span class="line">   <span class="attr">numA</span>:<span class="number">1</span>,			</span><br><span class="line">   <span class="attr">numB</span>:<span class="number">2</span>,</span><br><span class="line">   <span class="keyword">get</span> <span class="title function_">sum</span>()&#123;						<span class="comment">//相当于vuex中的getter</span></span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">numA</span>+ <span class="variable language_">this</span>.<span class="property">numB</span>   </span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="attr">updateNum1</span>:<span class="title function_">action</span>(<span class="keyword">function</span>(<span class="params">step</span>)&#123;	<span class="comment">//相当于vuex中的action</span></span><br><span class="line">      </span><br><span class="line">   &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">/////app.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;promisifyAll&#125; <span class="keyword">from</span> <span class="string">&#x27;miniprogram-api-promise&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> wxp = wx.<span class="property">p</span> = &#123;&#125;</span><br><span class="line"><span class="title function_">promisifyAll</span>(wx,wxp)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
+<h4 id="在页面中使用mobx"><a href="#在页面中使用mobx" class="headerlink" title="在页面中使用mobx"></a>在页面中使用mobx</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pageName.js</span></span><br><span class="line"><span class="keyword">import</span> &#123;createStoreBindings&#125; <span class="keyword">from</span> <span class="string">&#x27;mobx-miniprogram-bindings&#x27;</span></span><br><span class="line"><span class="keyword">import</span>&#123;store&#125; <span class="keyword">from</span> <span class="string">&#x27;../../store/store&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title class_">Page</span>(&#123;</span><br><span class="line">    <span class="title function_">onLoad</span>(<span class="params"></span>)&#123;</span><br><span class="line">         <span class="variable language_">this</span>.<span class="property">storeBindings</span> = <span class="title function_">createStoreBindings</span>(</span><br><span class="line">         <span class="variable language_">this</span>,</span><br><span class="line">         &#123;</span><br><span class="line">            store,</span><br><span class="line">            <span class="attr">fields</span>:[<span class="string">&#x27;numA&#x27;</span>,<span class="string">&#x27;numB&#x27;</span>,<span class="string">&#x27;sum&#x27;</span>],</span><br><span class="line">            <span class="attr">actions</span>:[<span class="string">&#x27;updateNum1&#x27;</span>]</span><br><span class="line">         &#125;</span><br><span class="line">      )</span><br><span class="line">    &#125;，</span><br><span class="line">    <span class="title function_">onUnload</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">storeBindings</span>.<span class="title function_">destroyStoreBindings</span>()</span><br><span class="line">   &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//然后就可以直接使用了</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h4 id="在组件中使用"><a href="#在组件中使用" class="headerlink" title="在组件中使用"></a>在组件中使用</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;storeBindingsBehavior &#125; <span class="keyword">from</span> <span class="string">&#x27;mobx-miniprogram-bindings&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;store&#125; <span class="keyword">from</span> <span class="string">&#x27;../../store/store&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Component</span>(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="attr">behaviors</span>:[</span><br><span class="line">      storeBindingsBehavior</span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">storeBindings</span>:&#123;</span><br><span class="line">      store,</span><br><span class="line">      <span class="attr">fields</span>:&#123;</span><br><span class="line">         <span class="attr">numA</span>:<span class="function">(<span class="params">store</span>)=&gt;</span>store.<span class="property">numA</span>,</span><br><span class="line">         <span class="attr">numB</span>:<span class="function">(<span class="params">store</span>)=&gt;</span>store.<span class="property">numB</span>,</span><br><span class="line">         <span class="attr">sum</span>:<span class="string">&#x27;sum&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">actions</span>:&#123;</span><br><span class="line">         <span class="attr">updateNum1</span>:<span class="string">&#x27;updateNum1&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">   &#125;)</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>​	 应用场景：我们在函数里面经常需要维护一个外部的变量来保存当前执行的状态，比如说做一个分页的时候需要维护一个index，这个这个index的声明不能直接放在函数里面，这样就失去了保存状态的意义。放在全局变量里又会显得代码很杂乱，其他函数也能访问到，这不利于维护，因此，我们可以在函数外层再套一个函数，用于声明环境变量，然后在内层函数里面写相关的逻辑控制。</p>
-<p>​		</p>
-<p>​	 </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**封装模块*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">CoolModule</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">&#x27;fang&#x27;</span></span><br><span class="line">    <span class="keyword">var</span> color = [<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">sayName</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        sayName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> outer = <span class="title class_">CoolModule</span>()</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(outer.<span class="title function_">sayName</span>())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   此时，color，name就相当于私有变量，sayName 就相当于对外暴露的函数</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fn</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo1</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">baz</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;fn : &#x27;</span>, a)</span><br><span class="line">    &#125;</span><br><span class="line">    fn = baz</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">foo1</span>()		<span class="comment">//将inner函数复制给外面的变量</span></span><br><span class="line"><span class="title function_">fn</span>()		<span class="comment">//调用外部变量，效果一致</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   立即执行函数会创建一个新的函数作用域，</span></span><br><span class="line"><span class="comment"> *   使得setTimeout的每一个回调函数都有一个独立的作用域</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">    (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> j = i</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;setTimeout : &#x27;</span>, j)</span><br><span class="line">        &#125;, <span class="number">0</span>)</span><br><span class="line">    &#125;)()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> *   let会劫持块作用域</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> u = <span class="number">1</span>; u &lt;= <span class="number">5</span>; u++) &#123;</span><br><span class="line">    <span class="keyword">let</span> v = u</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;setTimeout2&#x27;</span>, v)</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>正常函数里面的变量会在函数调用完之后销毁，</strong></p>
-<p><strong>但是如果使用了闭包，那么函数里面声明的变量就会被带出来，垃圾销毁机制就不能清理这个变量</strong></p>
-<p><strong>所以使用闭包有可能会导致内存泄漏的问题</strong></p>
-<p><strong>解决方式是在使用完变量之后，就要将变量名赋值为空，没有地方引用这个变量之后，垃圾销毁机制就会清除这个变量</strong></p>
 
       
     </div>
@@ -635,7 +317,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/19/%E6%80%A7%E8%83%BD/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--component/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -649,7 +331,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/19/%E6%80%A7%E8%83%BD/" class="post-title-link" itemprop="url">关于性能</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--component/" class="post-title-link" itemprop="url">微信小程序--component</a>
         </h2>
 
         <div class="post-meta">
@@ -659,14 +341,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-07-19 17:18:21" itemprop="dateCreated datePublished" datetime="2022-07-19T17:18:21+08:00">2022-07-19</time>
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-30 11:47:14" itemprop="dateModified" datetime="2022-07-30T11:47:14+08:00">2022-07-30</time>
+                <time title="修改时间：2022-08-05 16:27:08" itemprop="dateModified" datetime="2022-08-05T16:27:08+08:00">2022-08-05</time>
               </span>
 
           
@@ -680,13 +362,90 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>​		一个网页的性能直接决定了用户的体验，而性能可以分成很多个方面，最重要的几个点是：</p>
+          <p>微信小程序的组件一般放在component文件夹下面</p>
+<h3 id="局部引用"><a href="#局部引用" class="headerlink" title="局部引用"></a>局部引用</h3><p>当page需要使用到组件的时候，需要在page的json文件中引入component</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">​	<span class="attr">&quot;usingComponents&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">​		<span class="attr">&quot;my-test1&quot;</span><span class="punctuation">:</span><span class="string">&quot;/component/test/test&quot;</span>	</span><br><span class="line">​	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="全局引用"><a href="#全局引用" class="headerlink" title="全局引用"></a>全局引用</h3><p>当组件在很多页面上都会用到的时候，就可以在app.json里面对组件进行全局引用。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">​	<span class="attr">&quot;pages&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">​	<span class="attr">&quot;window&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">​	 <span class="attr">&quot;usingComponents&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;my-test1&quot;</span><span class="punctuation">:</span><span class="string">&quot;/component/test/test&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="组件与页面的区别"><a href="#组件与页面的区别" class="headerlink" title="组件与页面的区别"></a>组件与页面的区别</h3><ul>
+<li>组件的  .json文件中，要设置 component:”true”</li>
+<li>组件的 .js 文件中，调用的时Component() 函数， 页面 调用的时 Page() 函数</li>
+<li>组件的事件处理函数，函数等 都 需要定义在methods中</li>
+</ul>
+<h3 id="样式隔离"><a href="#样式隔离" class="headerlink" title="样式隔离"></a>样式隔离</h3><ul>
+<li>app.wxss 中的全局样式对组件无效</li>
+<li>只有class选择器有样式隔离效果，id选择器，属性选择器，标签选择器都不受样式隔离的影响</li>
+<li>可以在组件的  .json 文件中 或者 .js 文件中 添加  “styleIsolation” 使组件样式隔离失效<ul>
+<li>isolated default：true   表示启用样式隔离</li>
+<li>apply-shared   default: false   表示关闭组件的样式隔离，页面wxss可以影响组件，组件wxss不影响页面</li>
+<li>shared  default :false   表示页面wxss和组件wxss相互影响</li>
+</ul>
+</li>
+</ul>
+<h3 id="组件传值"><a href="#组件传值" class="headerlink" title="组件传值"></a>组件传值</h3><ul>
+<li>属性绑定：子组件通过在传入Component函数的对象中添加 properties 属性，来声明要接受的数据名称，这个跟vue 的props类似，这个也可以有完整定义属性的方式和简化定义属性的方式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Component</span>(&#123;</span><br><span class="line">    <span class="attr">properties</span>:&#123;</span><br><span class="line">        <span class="attr">max</span>:&#123;</span><br><span class="line">            <span class="attr">type</span>:<span class="title class_">Number</span>,</span><br><span class="line">            <span class="attr">value</span>:<span class="number">10</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">min</span>:<span class="title class_">Number</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>页面加载性能</li>
-<li>动画与操作性能</li>
-<li>内存、电量消耗</li>
+<li><p>事件绑定： 跟vue里面类似，子组件给父组件传值可以通过 子组件触发事件，然后 父组件监听子组件触发的事件实现。</p>
+<ol>
+<li>父组件   定义一个函数，用于接受子组件传过来的值    childrenData(e){}</li>
+<li>子组件    通过触发事件将值传给父组件    this.triggerEvent(‘eventName’,{dataObject})</li>
+<li>父组件    通过监听子组件触发的事件， 在接受函数中 拿到 子组件传过来的值    bind:eventName&#x3D;”childrenData”</li>
+<li>父组件     通过接收函数的参数 获得 子组件传过来的值    e.detail</li>
+</ol>
+</li>
+<li><p>获取子组件实例：类似于vue里面的组件ref，</p>
+<ul>
+<li>父组件通过this.selectComponent(‘id或class选择器’)获取子组件实例，从而直接访问子组件的任意数据和方法，</li>
 </ul>
-<h5 id="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。"><a href="#其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。" class="headerlink" title="其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。"></a>其中，用户感知最明显的是页面加载性能，其次是动画与操作性能。</h5><p>​	</p>
+</li>
+</ul>
+<h3 id="data-和-properties的区别"><a href="#data-和-properties的区别" class="headerlink" title="data 和 properties的区别"></a>data 和 properties的区别</h3><p>在小程序组件中，data和properties都是可读可写的，读取的时候直接用，写入的时候需要使用 setData（{}）函数</p>
+<ul>
+<li>data 更倾向于存储私有数据</li>
+<li>properties更倾向于存储外界传递到组件中的数据</li>
+</ul>
+<h2 id="纯数据字段"><a href="#纯数据字段" class="headerlink" title="纯数据字段"></a>纯数据字段</h2><p>当data中的字段既不会渲染到界面上，也不会传递给其他组件的时候，就可以将它定义为纯数据字段，或者说这个字段不是响应式的。</p>
+<h5 id="优点：-有助于提升组件的性能"><a href="#优点：-有助于提升组件的性能" class="headerlink" title="优点： 有助于提升组件的性能"></a>优点： 有助于提升组件的性能</h5><h5 id="使用规则：在Component-的-options节点中，指定pureDataPattern为一个正则表达式，符合这个正则表达式的字段将成为纯数据字段。"><a href="#使用规则：在Component-的-options节点中，指定pureDataPattern为一个正则表达式，符合这个正则表达式的字段将成为纯数据字段。" class="headerlink" title="使用规则：在Component 的 options节点中，指定pureDataPattern为一个正则表达式，符合这个正则表达式的字段将成为纯数据字段。"></a>使用规则：在Component 的 options节点中，指定pureDataPattern为一个正则表达式，符合这个正则表达式的字段将成为纯数据字段。</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Component</span>(&#123;</span><br><span class="line">	<span class="attr">options</span>:&#123;</span><br><span class="line">		<span class="attr">pureDataPattern</span>:<span class="regexp">/^_/</span>		<span class="comment">//以下划线开头的为纯数据字段</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id><a href="#" class="headerlink" title></a></h3><h3 id="组件生命周期"><a href="#组件生命周期" class="headerlink" title="组件生命周期"></a>组件生命周期</h3><ul>
+<li>created          此时还不能调用setData ， 是能用于给this添加一些自定义属性字段</li>
+<li>attached         这个时候this.data初始化完毕，可以使用setData了</li>
+<li>ready</li>
+<li>moved</li>
+<li>detached         当组件离开页面节点树后触发，退出一个页面会触发所有子组件的这个生命周期，适合做一些清理工作</li>
+<li>error</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">	lifetimes:&#123;</span><br><span class="line">		created()&#123;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="组件所在页面的生命周期"><a href="#组件所在页面的生命周期" class="headerlink" title="组件所在页面的生命周期"></a>组件所在页面的生命周期</h3><p>在组件内部，可以获取使用该组件的页面的生命周期的情况</p>
+<ul>
+<li>show   组件所在页面被展示时执行</li>
+<li>hide    组件所在页面被隐藏时执行</li>
+<li>resize   组件所在的页面尺寸变化时执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">	pageLifetimes:&#123;</span><br><span class="line">		show()&#123;&#125;,</span><br><span class="line">		hide()&#123;&#125;,</span><br><span class="line">		resize(size)&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><p>​		类似于vue 里面的插槽，指的是在自定义组件的wxml结构中，可以提供一个<slot>节点，用于挂载组件使用者提供的wxml结构，默认只能使用单个插槽</slot></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--组件内部--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是组件内部节点<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--组件使用者--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">component-tag-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">view</span>&gt;</span>这个是组件使用者放到插槽中的结构<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">component-tag-name</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="多个插槽"><a href="#多个插槽" class="headerlink" title="多个插槽"></a>多个插槽</h3><p>​	</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">component</span>(&#123;</span><br><span class="line">	<span class="attr">potions</span>:&#123;</span><br><span class="line">		<span class="attr">multipleSlots</span>:<span class="literal">true</span>			<span class="comment">//启动多个插槽</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--组件内部--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&quot;slo1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">view</span>&gt;</span>这里是组件内部节点<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&quot;slo2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--组件使用者--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">component-tag-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">view</span> <span class="attr">slot</span>=<span class="string">&quot;slo1&quot;</span>&gt;</span>这个是组件使用者放到插槽中的结构1<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">slot</span>=<span class="string">&quot;slo2&quot;</span>&gt;</span>这个是组件使用者放到插槽中的结构2<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">component-tag-name</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -706,7 +465,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/19/flex%E5%B8%83%E5%B1%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--api%E4%B8%89%E5%A4%A7%E5%88%86%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -720,7 +479,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/19/flex%E5%B8%83%E5%B1%80/" class="post-title-link" itemprop="url">flex布局</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--api%E4%B8%89%E5%A4%A7%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">微信小程序--api三大分类</a>
         </h2>
 
         <div class="post-meta">
@@ -730,14 +489,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-07-19 10:40:26" itemprop="dateCreated datePublished" datetime="2022-07-19T10:40:26+08:00">2022-07-19</time>
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-20 01:08:11" itemprop="dateModified" datetime="2022-07-20T01:08:11+08:00">2022-07-20</time>
+                <time title="修改时间：2022-08-05 16:26:57" itemprop="dateModified" datetime="2022-08-05T16:26:57+08:00">2022-08-05</time>
               </span>
 
           
@@ -751,39 +510,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>​	Flex布局支持横向和纵向。我们把Flex延伸的方向称为<strong>主轴</strong>，与主轴垂直的方向称为<strong>交叉轴</strong>。主轴开始的位置叫做main start，结束的位置叫做main end。交叉轴开始的位置叫做cross start，交叉轴结束的位置叫做cross end。</p>
-<p>​	Flex布局分为两个部分，Flex容器和 Flex-item</p>
-<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>​	容器就是用来装需要进行布局的元素的父元素。</p>
-<h3 id="容器的属性"><a href="#容器的属性" class="headerlink" title="容器的属性"></a>容器的属性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-direction</span> : row | row-reverse | column | column-reverse;  <span class="comment">/*设置容器的主轴方向与起点 row是水平column是垂直*/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse;					<span class="comment">/*设置容器的换行方式 nowrap是不换行，wrap是换行，wrap是倒着换行，也就是第一行在下面*/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-flow</span>:&lt;flex-direction&gt; || &lt;flex-wrap&gt;				<span class="comment">/*flex-direction和flex-wrap的简写形式*/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">justify-content</span>:flex-start | flex-end | center | space-between | space-around; <span class="comment">/*item在主轴方向上的对齐方式*/</span></span><br></pre></td></tr></table></figure>
-
-<img src="/2022/07/19/flex%E5%B8%83%E5%B1%80/bg2015071010.png" class title="bg2015071010">
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-items</span>: flex-start | flex-end | center | baseline | stretch;  <span class="comment">/*item在交叉轴上的对齐方式*/</span></span><br></pre></td></tr></table></figure>
-
-<img src="/2022/07/19/flex%E5%B8%83%E5%B1%80/bg2015071011.png" class title="bg2015071011">
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around | stretch;<span class="comment">/*定义多根轴线的对齐方式*/</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="item的属性"><a href="#item的属性" class="headerlink" title="item的属性"></a>item的属性</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">order</span> : &lt;Integer&gt;    <span class="comment">/*item的排列顺序，数字越小，排列越靠前，默认为0*/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-grow</span>: &lt;number&gt;;  <span class="comment">/*item放大比例 如果都设置为0就是不放大，都设置1就是等分剩余空间，不同item设置不同的话就是放大的比例大小 */</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-shrink</span>: &lt;number&gt;; <span class="comment">/* item缩小比例 默认为1，如果容器空间不足，都将等比例缩小；如果item设置为0，则其他缩小，这个不缩小 */</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex-basis</span>: &lt;length&gt; | auto;  <span class="comment">/* 定义分配多余空间之前，item占主轴空间。如果设置，item将固定空间 */</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flex</span>: none | [ &lt;<span class="string">&#x27;flex-grow&#x27;</span>&gt; &lt;<span class="string">&#x27;flex-shrink&#x27;</span>&gt;? || &lt;<span class="string">&#x27;flex-basis&#x27;</span>&gt; ]		<span class="comment">/*简写*/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">align-self</span>: auto | flex-start | flex-end | center | baseline | stretch;  <span class="comment">/*将当前item设置为跟其他item不同的对齐方式，可以覆盖容器的align-item属性*/</span></span><br></pre></td></tr></table></figure>
-
-
-
+          <p>微信官方把API分为了如下3大类：</p>
+<h4 id="事件监听API"><a href="#事件监听API" class="headerlink" title="事件监听API"></a>事件监听API</h4><ul>
+<li>以on开头，类似于vue里面的v-on，但是不能直接给事件处理函数添加参数，需要使用 data-***</li>
+</ul>
+<h4 id="同步API"><a href="#同步API" class="headerlink" title="同步API"></a>同步API</h4><ul>
+<li>以sync结尾的API都是同步API</li>
+<li>同步API的执行结果，可以通过函数返回值直接获取，如果执行异常会抛出异常</li>
+<li>wx.setStorageSync(‘key’,’value’) 向本地存储中写入数据</li>
+</ul>
+<h4 id="异步API"><a href="#异步API" class="headerlink" title="异步API"></a>异步API</h4><ul>
+<li>类似于 promise.then() ，catch() , finally() 需要传入success，fail，complete回调函数来处理不同的结果</li>
+<li>举个例子： wx.request()发起网络请求，通过success回调函数接受数据，填入fail处理错误</li>
+<li>部分API支持promise风格，详情见微信官方wen’dang</li>
+</ul>
 
       
     </div>
@@ -803,7 +543,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/19/img%E6%A0%87%E7%AD%BE/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -817,7 +557,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/19/img%E6%A0%87%E7%AD%BE/" class="post-title-link" itemprop="url">img标签</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxs/" class="post-title-link" itemprop="url">微信小程序--wxs</a>
         </h2>
 
         <div class="post-meta">
@@ -826,10 +566,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-19 10:16:26 / 修改时间：10:40:29" itemprop="dateCreated datePublished" datetime="2022-07-19T10:16:26+08:00">2022-07-19</time>
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 16:39:22" itemprop="dateModified" datetime="2022-08-05T16:39:22+08:00">2022-08-05</time>
+              </span>
 
           
 
@@ -842,18 +588,378 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="img"><a href="#img" class="headerlink" title="img"></a>img</h3><p>​	img标签用于在网页中显示图片，它是替换型元素，给img标签设置src属性之后，浏览器加载HTML的时候先会根据给img标签设置的宽、高排版，占个位置，然后会向src的目标地址发起get请求，在从服务器拿到图片文件之后，这个图片就会替换当前的img标签。</p>
-<h4 id="小问题"><a href="#小问题" class="headerlink" title="小问题"></a>小问题</h4><ul>
-<li>如果只设置宽或高，就会等比例缩放，如果同时设置宽高的话就可能破坏图片的宽高比。</li>
-<li>如果只设置宽或高，就会引起浏览器的<strong>重绘</strong>，影响到<strong>性能</strong>。</li>
-<li>当通过设置宽高放大图片的话是有损的，会影响画质，当给图片缩小的话又浪费带宽资源，减慢页面加载速度因此最好是根据需要从服务器请求不同尺寸的图片。</li>
-<li>srcset和sizes属性可以在不同的屏幕大小和特性下使用不同的图片源</li>
+          <p> wsx是微信小程序内置的一套脚本语言，不支持ES6语法，可以作为一个嵌入到wxml中使用，一般都是用来做过滤器</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxml/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxml/" class="post-title-link" itemprop="url">微信小程序--wxml</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 16:30:03" itemprop="dateModified" datetime="2022-08-05T16:30:03+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>微信小程序中的wxml类似于vue中的模板语法，区别在于:</p>
+<ol>
+<li><p>wxml中使用view标签代替html中的块级元素，</p>
+</li>
+<li><p>使用text标签代替html中的行内元素</p>
+</li>
+<li><p>使用rich-text实现服务端渲染，</p>
+</li>
+<li><p>使用image标签显示图片</p>
+</li>
+<li><p>block 相当于vue里面的template</p>
+</li>
+<li><p>微信小程序自带了一个官方组件库，可以直接在wxml中进行shi’yong</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--tabBar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--tabBar/" class="post-title-link" itemprop="url">微信小程序--tabBar</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 16:28:25" itemprop="dateModified" datetime="2022-08-05T16:28:25+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h2><p>微信小程序的导航栏设置在 app.json 文件里设置，设置项为 “tabBar”:{ color:’’,selectedColor:’’,list:[]  }</p>
+<ul>
+<li><h4 id="color-设置导航栏文字未被选中时的颜色"><a href="#color-设置导航栏文字未被选中时的颜色" class="headerlink" title="color 设置导航栏文字未被选中时的颜色"></a>color 设置导航栏文字未被选中时的颜色</h4></li>
+<li><h4 id="selectedColor-设置导航栏被选中时的文字的颜色"><a href="#selectedColor-设置导航栏被选中时的文字的颜色" class="headerlink" title="selectedColor 设置导航栏被选中时的文字的颜色"></a>selectedColor 设置导航栏被选中时的文字的颜色</h4></li>
+<li><h4 id="list-设置导航栏的每个项目的信息"><a href="#list-设置导航栏的每个项目的信息" class="headerlink" title="list 设置导航栏的每个项目的信息"></a>list 设置导航栏的每个项目的信息</h4><ul>
+<li><h5 id="“pagePath”-项目的页面地址，点击导航栏会自动跳到这个页面"><a href="#“pagePath”-项目的页面地址，点击导航栏会自动跳到这个页面" class="headerlink" title="“pagePath”  项目的页面地址，点击导航栏会自动跳到这个页面"></a>“pagePath”  项目的页面地址，点击导航栏会自动跳到这个页面</h5></li>
+<li><h5 id="“text”-项目的文字内容"><a href="#“text”-项目的文字内容" class="headerlink" title="“text”  项目的文字内容"></a>“text”  项目的文字内容</h5></li>
+<li><h5 id="“-iconPath”-项目图标的地址"><a href="#“-iconPath”-项目图标的地址" class="headerlink" title="“ iconPath” 项目图标的地址"></a>“ iconPath” 项目图标的地址</h5></li>
+<li><h5 id="“-selectedIconPath”-选中之后的图标的地址"><a href="#“-selectedIconPath”-选中之后的图标的地址" class="headerlink" title="“ selectedIconPath” 选中之后的图标的地址"></a>“ selectedIconPath” 选中之后的图标的地址</h5></li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// srcset 提供了根据屏幕条件选取图片的能力，但是其实更好的做法，是使用 picture 元素</span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">srcset</span>=<span class="string">&quot;elva-fairy-320w.jpg 320w, </span></span></span><br><span class="line"><span class="string"><span class="tag">             elva-fairy-480w.jpg 480w, </span></span></span><br><span class="line"><span class="string"><span class="tag">             elva-fairy-800w.jpg 800w&quot;</span></span></span><br><span class="line"><span class="tag">     <span class="attr">sizes</span>=<span class="string">&quot;(max-width: 320px) 280px, </span></span></span><br><span class="line"><span class="string"><span class="tag">            (max-width: 480px) 440px,</span></span></span><br><span class="line"><span class="string"><span class="tag">            800px&quot;</span></span></span><br><span class="line"><span class="tag">     <span class="attr">src</span>=<span class="string">&quot;elva-fairy-800w.jpg&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;Elva dressed as a fairy&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="这里面，-list里面设置了几个对象，导航栏就会有几个选项"><a href="#这里面，-list里面设置了几个对象，导航栏就会有几个选项" class="headerlink" title="这里面， list里面设置了几个对象，导航栏就会有几个选项"></a>这里面， list里面设置了几个对象，导航栏就会有几个选项</h5><h2 id="自定义导航栏"><a href="#自定义导航栏" class="headerlink" title="自定义导航栏"></a>自定义导航栏</h2><ol>
+<li>在app.json 里面 的tabBar选项下面设置custom属性为true</li>
+<li>在主文件夹下创建custon-tab-bar目录，并在该目录下创建index组件</li>
+<li>在组件里面写导航栏的相关代码</li>
+</ol>
+<p>为了兼容性考虑，需要保存普通的tabBar的设置选项</p>
+<h3 id="如果使用vant里面的tabBar组件的话，需要在app-json组件里面注册，不能在custom-tab-bar组件里注册"><a href="#如果使用vant里面的tabBar组件的话，需要在app-json组件里面注册，不能在custom-tab-bar组件里注册" class="headerlink" title="如果使用vant里面的tabBar组件的话，需要在app.json组件里面注册，不能在custom-tab-bar组件里注册"></a>如果使用vant里面的tabBar组件的话，需要在app.json组件里面注册，不能在custom-tab-bar组件里注册</h3><h1 id><a href="#" class="headerlink" title></a></h1>
+      
+    </div>
 
-<h3 id="picture"><a href="#picture" class="headerlink" title="picture"></a>picture</h3><p>​	picture元素可以根据屏幕的条件为其中的img元素提供不同的源，其中media属性跟<strong>CSS</strong>中的@media是一样的</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">picture</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;image-wide1.png&quot;</span> <span class="attr">media</span>=<span class="string">&quot;(min-width: 600px)&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span> <span class="attr">srcset</span>=<span class="string">&quot;image-wide2.png&quot;</span> <span class="attr">media</span>=<span class="string">&quot;(min-width: 900px)&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image-narrow.png&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">picture</span>&gt;</span></span><br></pre></td></tr></table></figure>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8A%E6%8B%89%E8%A7%A6%E5%BA%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8A%E6%8B%89%E8%A7%A6%E5%BA%95/" class="post-title-link" itemprop="url">微信小程序--上拉触底</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 15:58:42" itemprop="dateModified" datetime="2022-08-05T15:58:42+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="设置上拉触底距离"><a href="#设置上拉触底距离" class="headerlink" title="设置上拉触底距离"></a>设置上拉触底距离</h4><ul>
+<li>在app.json.window 中设置	“onReachBottomDistance”: 50</li>
+</ul>
+<h4 id="上拉触底钩子"><a href="#上拉触底钩子" class="headerlink" title="上拉触底钩子"></a>上拉触底钩子</h4><ul>
+<li><h4 id="Page-onReachBottom-当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子"><a href="#Page-onReachBottom-当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子" class="headerlink" title="Page({onReachBottom(){}})  当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子"></a>Page({onReachBottom(){}})  当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子</h4></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" class="post-title-link" itemprop="url">微信小程序--下拉刷新</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 16:23:11" itemprop="dateModified" datetime="2022-08-05T16:23:11+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="小程序的下拉刷新效果"><a href="#小程序的下拉刷新效果" class="headerlink" title="小程序的下拉刷新效果"></a>小程序的下拉刷新效果</h4><h4 id="1-添加下拉刷新"><a href="#1-添加下拉刷新" class="headerlink" title="1. 添加下拉刷新"></a>1. 添加下拉刷新</h4><ul>
+<li>全局添加： 在app.json.window对象里添加enablePullDownRefresh ：true</li>
+<li>局部添加：在pageName.json对象里添加enablePullDownRefresh ：true</li>
+</ul>
+<h4 id="2-下拉刷新钩子"><a href="#2-下拉刷新钩子" class="headerlink" title="2.下拉刷新钩子"></a>2.下拉刷新钩子</h4><ul>
+<li>在index.js 里面  Page({onPullDownRefresh() { } })</li>
+</ul>
+<h4 id="3-收起下拉刷新"><a href="#3-收起下拉刷新" class="headerlink" title="3.收起下拉刷新"></a>3.收起下拉刷新</h4><ul>
+<li>wx.stopPullDownRefresh()</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%BAdata%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E8%B5%8B%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%BAdata%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E8%B5%8B%E5%80%BC/" class="post-title-link" itemprop="url">微信小程序--data</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 16:20:47" itemprop="dateModified" datetime="2022-08-05T16:20:47+08:00">2022-08-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在事件处理函数中，为data中的数据赋值的时候</p>
+<p>不能直接更改data中的数据的值，而是需要通过this.setData进行修改，但是data是响应式的，会自动更新视图</p>
 
       
     </div>
@@ -872,7 +978,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -938,12 +1044,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
