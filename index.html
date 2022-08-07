@@ -145,6 +145,141 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/07/vue-router%20%E5%88%B7%E6%96%B0%E4%B9%8B%E5%90%8Eparams%E5%B0%B1%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/07/vue-router%20%E5%88%B7%E6%96%B0%E4%B9%8B%E5%90%8Eparams%E5%B0%B1%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">vue-router 刷新之后params就丢失的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-07 16:57:26 / 修改时间：16:27:44" itemprop="dateCreated datePublished" datetime="2022-08-07T16:57:26+08:00">2022-08-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​     当在vue-router中使用params传参数的时候，参数不会显示在页面上，但是当再次刷新页面的时候，会导致 params 参数丢失。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>使用sessionStorage存储参数，在目标页面使用参数的时候判定一下，如果没有就从sessionStorage中拿</li>
+<li>使用query，query会将参数整合在url中，不会导致参数丢失</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/05/%E4%BA%8C%E5%85%83%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/05/%E4%BA%8C%E5%85%83%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6/" class="post-title-link" itemprop="url">二元逻辑运算符</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-05 22:16:21 / 修改时间：23:05:29" itemprop="dateCreated datePublished" datetime="2022-08-05T22:16:21+08:00">2022-08-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="二元逻辑运算符"><a href="#二元逻辑运算符" class="headerlink" title="二元逻辑运算符"></a>二元逻辑运算符</h3><p>二元逻辑运算符在平时的项目开发中特别常见，下面是关于他们的一些总结。</p>
+<h4 id="1-amp-amp-逻辑与"><a href="#1-amp-amp-逻辑与" class="headerlink" title="1.  &amp;&amp; 逻辑与"></a>1.  &amp;&amp; 逻辑与</h4><p>​	通常在一些条件表达式里比较常见，如果两边都为true的话，表达式整体就返回true，有一个false的话，表达式整体就返回false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="literal">true</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a &amp;&amp; b)   <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a &amp;&amp; <span class="literal">true</span>) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-逻辑或"><a href="#2-逻辑或" class="headerlink" title="2. || 逻辑或"></a>2. || 逻辑或</h4><p>​	一般也是在条件表达式里比较常见，如果两边有一个为true的话，整体就为true，如果都为false 的话就为false,然后就是<strong>在赋值语句的时候，还有一种特殊的用法。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="literal">true</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a || b)  <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b || <span class="literal">false</span>) <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;&#x27;</span> || <span class="number">1</span>);				<span class="comment">//1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">NaN</span> || <span class="number">2</span>);				<span class="comment">//2	</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="literal">null</span> || <span class="number">3</span>);				<span class="comment">//3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="literal">undefined</span> || <span class="number">4</span>);		<span class="comment">//4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当逻辑或两边都是true的时候，就会返回左边的值，如果两边有一个是真的时候，就会返回真的那个值。</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="3-？？-空值合并预算符"><a href="#3-？？-空值合并预算符" class="headerlink" title="3.  ？？  空值合并预算符"></a>3.  ？？  空值合并预算符</h4><p>​	如果 ?? 前面是 null 或 undefined，取后面的默认值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;&#x27;</span> ?? <span class="number">1</span>);				<span class="comment">//   &#x27;&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">NaN</span> ?? <span class="number">2</span>);				<span class="comment">//   NaN	</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="literal">null</span> ?? <span class="number">3</span>);				<span class="comment">//   3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="literal">undefined</span> ?? <span class="number">4</span>);		<span class="comment">//   4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//  跟逻辑与不同的是，空值合并运算符不会对&#x27;&#x27;和NaN进行转换</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%88%86%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -465,7 +600,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--api%E4%B8%89%E5%A4%A7%E5%88%86%E7%B1%BB/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%BE%AE%E4%BF%A1%E6%8E%A5%E5%8F%A3%E7%9A%84Promise%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -479,7 +614,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--api%E4%B8%89%E5%A4%A7%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">微信小程序--api三大分类</a>
+            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E5%BE%AE%E4%BF%A1%E6%8E%A5%E5%8F%A3%E7%9A%84Promise%E5%8C%96/" class="post-title-link" itemprop="url">微信小程序--微信接口promise化</a>
         </h2>
 
         <div class="post-meta">
@@ -496,7 +631,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:26:57" itemprop="dateModified" datetime="2022-08-05T16:26:57+08:00">2022-08-05</time>
+                <time title="修改时间：2022-08-05 16:19:09" itemprop="dateModified" datetime="2022-08-05T16:19:09+08:00">2022-08-05</time>
               </span>
 
           
@@ -510,20 +645,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>微信官方把API分为了如下3大类：</p>
-<h4 id="事件监听API"><a href="#事件监听API" class="headerlink" title="事件监听API"></a>事件监听API</h4><ul>
-<li>以on开头，类似于vue里面的v-on，但是不能直接给事件处理函数添加参数，需要使用 data-***</li>
-</ul>
-<h4 id="同步API"><a href="#同步API" class="headerlink" title="同步API"></a>同步API</h4><ul>
-<li>以sync结尾的API都是同步API</li>
-<li>同步API的执行结果，可以通过函数返回值直接获取，如果执行异常会抛出异常</li>
-<li>wx.setStorageSync(‘key’,’value’) 向本地存储中写入数据</li>
-</ul>
-<h4 id="异步API"><a href="#异步API" class="headerlink" title="异步API"></a>异步API</h4><ul>
-<li>类似于 promise.then() ，catch() , finally() 需要传入success，fail，complete回调函数来处理不同的结果</li>
-<li>举个例子： wx.request()发起网络请求，通过success回调函数接受数据，填入fail处理错误</li>
-<li>部分API支持promise风格，详情见微信官方wen’dang</li>
-</ul>
+          <ol>
+<li>使用npm在微信小程序项目文件夹下面 安装一个 promisefyAll 的插件</li>
+<li>然后在微信小程序开发者工具 -&gt; 工具 -&gt; 构建npm</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在 main.js里面 ，在wx对象上声明一个p对象，然后以后调用这个wx.p对象上面的API就都是wx 上的API promise化的了</span></span><br><span class="line"><span class="keyword">import</span> &#123;promisefyAll&#125; <span class="keyword">from</span> <span class="string">&#x27;miniprogram-api-promise&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> wxp = wx.<span class="property">p</span> = &#123;&#125;</span><br><span class="line"><span class="title function_">promisefyAll</span>(wx,wxp)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -543,7 +670,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxs/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -557,7 +684,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxs/" class="post-title-link" itemprop="url">微信小程序--wxs</a>
+            <a href="/2022/07/30/vue%E4%B8%AD%E7%88%B6%E7%BB%84%E4%BB%B6%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">在vue中父组件给子组件传值数据丢失问题中</a>
         </h2>
 
         <div class="post-meta">
@@ -566,16 +693,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+              <time title="创建时间：2022-07-30 12:10:26 / 修改时间：12:25:42" itemprop="dateCreated datePublished" datetime="2022-07-30T12:10:26+08:00">2022-07-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:39:22" itemprop="dateModified" datetime="2022-08-05T16:39:22+08:00">2022-08-05</time>
-              </span>
 
           
 
@@ -588,7 +709,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p> wsx是微信小程序内置的一套脚本语言，不支持ES6语法，可以作为一个嵌入到wxml中使用，一般都是用来做过滤器</p>
+          <h4 id="错误场景"><a href="#错误场景" class="headerlink" title="错误场景"></a>错误场景</h4><p>​	在vue中，父组件给子组件传的值需要异步获取，在浏览器刷新之后，这可能会造成子组件报错  can not read data  not defined ，子组件报没拿到父组件传过来的值，但是我拿vue develop tools 查看子组件，却可以看到从父组件传过来的值，子组件却没有将值渲染出来。</p>
+<h4 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h4><p>​	当浏览器刷新之后，整个vue实例就会被重新加载，父组件就会调用API 重新发送网络请求，但是这个时候问题来了，网络请求是异步的，当子组件已经开始渲染的时候父组件还没有拿到数据，所以子组件就会报错。</p>
+<p>​	还有一种情况，如果数据的对象比较大，可能浅层的数据已经可以拿到了，但是深层的数据还是undefined。</p>
+<p>​	所以我的解决办法就是给子组件加上一个 v-if  条件就是需要传给子组件的数据，因为浅层数据拿到的时候深层数据不一定拿到，所以最好是将深层数据作为条件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line"> &lt;div class=&quot;playlist-detail&quot; v-if=&quot;playlist.creator&quot;&gt;</span><br><span class="line">        &lt;PlayListDetailTop :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line">        &lt;ItemPlaylist :playlist=&quot;playlist&quot; /&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">const playlist = ref(&#123;&#125;)</span><br><span class="line">const isLoading = ref(true)</span><br><span class="line"></span><br><span class="line">onMounted(async () =&gt; &#123;</span><br><span class="line">    const id = useRoute().query.id         //通过路由获取歌单id</span><br><span class="line">    const res = await getPlayListDetail(id)</span><br><span class="line">    isLoading.value = false</span><br><span class="line">    playlist.value = res.data.playlist</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -608,7 +734,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxml/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -622,7 +748,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--wxml/" class="post-title-link" itemprop="url">微信小程序--wxml</a>
+            <a href="/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">transform中rotate和translate混用的问题</a>
         </h2>
 
         <div class="post-meta">
@@ -631,16 +757,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+              <time title="创建时间：2022-07-30 11:59:26 / 修改时间：12:03:34" itemprop="dateCreated datePublished" datetime="2022-07-30T11:59:26+08:00">2022-07-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:30:03" itemprop="dateModified" datetime="2022-08-05T16:30:03+08:00">2022-08-05</time>
-              </span>
 
           
 
@@ -653,21 +773,77 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>微信小程序中的wxml类似于vue中的模板语法，区别在于:</p>
+          <p>transform可以在浏览器不用reLayout的情况下移动元素的位置，对动画性能比较友好。</p>
+<p>​	其中，translate是使元素平移，rotate是使元素旋转</p>
+<p>​	在旋转的时候，会将元素的 x， y轴跟着一起旋转，所以当面临混用的情况，就可以将translate放在前面，rotate放在后面，这样就会先平移再旋转，不会影响到translate</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">20px</span>,<span class="number">20px</span>) <span class="built_in">rotate</span>(<span class="number">90deg</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">遍历数组的两种常用方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-30 11:39:21 / 修改时间：11:46:50" itemprop="dateCreated datePublished" datetime="2022-07-30T11:39:21+08:00">2022-07-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-Array-prototype-forEach-callback-item-index-array"><a href="#1-Array-prototype-forEach-callback-item-index-array" class="headerlink" title="1. Array.prototype.forEach( callback(item,index,array )  )"></a>1. Array.prototype.forEach( callback(item,index,array )  )</h4><p>​	forEach传入一个回调函数，回调函数有3个参数</p>
 <ol>
-<li><p>wxml中使用view标签代替html中的块级元素，</p>
-</li>
-<li><p>使用text标签代替html中的行内元素</p>
-</li>
-<li><p>使用rich-text实现服务端渲染，</p>
-</li>
-<li><p>使用image标签显示图片</p>
-</li>
-<li><p>block 相当于vue里面的template</p>
-</li>
-<li><p>微信小程序自带了一个官方组件库，可以直接在wxml中进行shi’yong</p>
-</li>
+<li>当前遍历的value</li>
+<li>当前value的下标</li>
+<li>当前遍历的array</li>
 </ol>
+<h4 id="2-Array-prototype-map-callback-item-index-array"><a href="#2-Array-prototype-map-callback-item-index-array" class="headerlink" title="2. Array.prototype.map(callback(item,index,array ) )"></a>2. Array.prototype.map(callback(item,index,array ) )</h4><p>​	map参数跟forEach一样</p>
+<h3 id="map-和-forEach的区别："><a href="#map-和-forEach的区别：" class="headerlink" title="map 和  forEach的区别："></a>map 和  forEach的区别：</h3><p>map 会根据回调函数的返回值返回一个新的数组，如果回调函数返回true，就会把当前遍历的value添加到新数组中去，返回false就不添加，而forEach函数没有返回值</p>
 
       
     </div>
@@ -687,7 +863,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--tabBar/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -701,7 +877,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--tabBar/" class="post-title-link" itemprop="url">微信小程序--tabBar</a>
+            <a href="/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/" class="post-title-link" itemprop="url">将一个数组中的元素复制到另一个数组中的方法</a>
         </h2>
 
         <div class="post-meta">
@@ -710,16 +886,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
+              <time title="创建时间：2022-07-30 11:29:21 / 修改时间：11:38:31" itemprop="dateCreated datePublished" datetime="2022-07-30T11:29:21+08:00">2022-07-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:28:25" itemprop="dateModified" datetime="2022-08-05T16:28:25+08:00">2022-08-05</time>
-              </span>
 
           
 
@@ -732,234 +902,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h2><p>微信小程序的导航栏设置在 app.json 文件里设置，设置项为 “tabBar”:{ color:’’,selectedColor:’’,list:[]  }</p>
-<ul>
-<li><h4 id="color-设置导航栏文字未被选中时的颜色"><a href="#color-设置导航栏文字未被选中时的颜色" class="headerlink" title="color 设置导航栏文字未被选中时的颜色"></a>color 设置导航栏文字未被选中时的颜色</h4></li>
-<li><h4 id="selectedColor-设置导航栏被选中时的文字的颜色"><a href="#selectedColor-设置导航栏被选中时的文字的颜色" class="headerlink" title="selectedColor 设置导航栏被选中时的文字的颜色"></a>selectedColor 设置导航栏被选中时的文字的颜色</h4></li>
-<li><h4 id="list-设置导航栏的每个项目的信息"><a href="#list-设置导航栏的每个项目的信息" class="headerlink" title="list 设置导航栏的每个项目的信息"></a>list 设置导航栏的每个项目的信息</h4><ul>
-<li><h5 id="“pagePath”-项目的页面地址，点击导航栏会自动跳到这个页面"><a href="#“pagePath”-项目的页面地址，点击导航栏会自动跳到这个页面" class="headerlink" title="“pagePath”  项目的页面地址，点击导航栏会自动跳到这个页面"></a>“pagePath”  项目的页面地址，点击导航栏会自动跳到这个页面</h5></li>
-<li><h5 id="“text”-项目的文字内容"><a href="#“text”-项目的文字内容" class="headerlink" title="“text”  项目的文字内容"></a>“text”  项目的文字内容</h5></li>
-<li><h5 id="“-iconPath”-项目图标的地址"><a href="#“-iconPath”-项目图标的地址" class="headerlink" title="“ iconPath” 项目图标的地址"></a>“ iconPath” 项目图标的地址</h5></li>
-<li><h5 id="“-selectedIconPath”-选中之后的图标的地址"><a href="#“-selectedIconPath”-选中之后的图标的地址" class="headerlink" title="“ selectedIconPath” 选中之后的图标的地址"></a>“ selectedIconPath” 选中之后的图标的地址</h5></li>
-</ul>
-</li>
-</ul>
-<h5 id="这里面，-list里面设置了几个对象，导航栏就会有几个选项"><a href="#这里面，-list里面设置了几个对象，导航栏就会有几个选项" class="headerlink" title="这里面， list里面设置了几个对象，导航栏就会有几个选项"></a>这里面， list里面设置了几个对象，导航栏就会有几个选项</h5><h2 id="自定义导航栏"><a href="#自定义导航栏" class="headerlink" title="自定义导航栏"></a>自定义导航栏</h2><ol>
-<li>在app.json 里面 的tabBar选项下面设置custom属性为true</li>
-<li>在主文件夹下创建custon-tab-bar目录，并在该目录下创建index组件</li>
-<li>在组件里面写导航栏的相关代码</li>
-</ol>
-<p>为了兼容性考虑，需要保存普通的tabBar的设置选项</p>
-<h3 id="如果使用vant里面的tabBar组件的话，需要在app-json组件里面注册，不能在custom-tab-bar组件里注册"><a href="#如果使用vant里面的tabBar组件的话，需要在app-json组件里面注册，不能在custom-tab-bar组件里注册" class="headerlink" title="如果使用vant里面的tabBar组件的话，需要在app.json组件里面注册，不能在custom-tab-bar组件里注册"></a>如果使用vant里面的tabBar组件的话，需要在app.json组件里面注册，不能在custom-tab-bar组件里注册</h3><h1 id><a href="#" class="headerlink" title></a></h1>
-      
-    </div>
+          <h2 id><a href="#" class="headerlink" title></a></h2><h4 id="1-展开运算符"><a href="#1-展开运算符" class="headerlink" title="1. 展开运算符"></a>1. 展开运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">arr1.<span class="title function_">push</span>(...arr2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8A%E6%8B%89%E8%A7%A6%E5%BA%95/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8A%E6%8B%89%E8%A7%A6%E5%BA%95/" class="post-title-link" itemprop="url">微信小程序--上拉触底</a>
-        </h2>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+<h4 id="2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开"><a href="#2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开" class="headerlink" title="2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开"></a>2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> array2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">array1.<span class="property">push</span>.<span class="title function_">apply</span>(array1,array2)</span><br></pre></td></tr></table></figure>
 
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 15:58:42" itemprop="dateModified" datetime="2022-08-05T15:58:42+08:00">2022-08-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="设置上拉触底距离"><a href="#设置上拉触底距离" class="headerlink" title="设置上拉触底距离"></a>设置上拉触底距离</h4><ul>
-<li>在app.json.window 中设置	“onReachBottomDistance”: 50</li>
-</ul>
-<h4 id="上拉触底钩子"><a href="#上拉触底钩子" class="headerlink" title="上拉触底钩子"></a>上拉触底钩子</h4><ul>
-<li><h4 id="Page-onReachBottom-当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子"><a href="#Page-onReachBottom-当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子" class="headerlink" title="Page({onReachBottom(){}})  当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子"></a>Page({onReachBottom(){}})  当用户下拉页面，页面底部距离屏幕底部距离小于设置的上拉触底距离的时候触发这个钩子</h4></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" class="post-title-link" itemprop="url">微信小程序--下拉刷新</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:23:11" itemprop="dateModified" datetime="2022-08-05T16:23:11+08:00">2022-08-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="小程序的下拉刷新效果"><a href="#小程序的下拉刷新效果" class="headerlink" title="小程序的下拉刷新效果"></a>小程序的下拉刷新效果</h4><h4 id="1-添加下拉刷新"><a href="#1-添加下拉刷新" class="headerlink" title="1. 添加下拉刷新"></a>1. 添加下拉刷新</h4><ul>
-<li>全局添加： 在app.json.window对象里添加enablePullDownRefresh ：true</li>
-<li>局部添加：在pageName.json对象里添加enablePullDownRefresh ：true</li>
-</ul>
-<h4 id="2-下拉刷新钩子"><a href="#2-下拉刷新钩子" class="headerlink" title="2.下拉刷新钩子"></a>2.下拉刷新钩子</h4><ul>
-<li>在index.js 里面  Page({onPullDownRefresh() { } })</li>
-</ul>
-<h4 id="3-收起下拉刷新"><a href="#3-收起下拉刷新" class="headerlink" title="3.收起下拉刷新"></a>3.收起下拉刷新</h4><ul>
-<li>wx.stopPullDownRefresh()</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%BAdata%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E8%B5%8B%E5%80%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/03/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F--%E4%B8%BAdata%E9%87%8C%E9%9D%A2%E7%9A%84%E6%95%B0%E6%8D%AE%E8%B5%8B%E5%80%BC/" class="post-title-link" itemprop="url">微信小程序--data</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-03 15:18:21" itemprop="dateCreated datePublished" datetime="2022-08-03T15:18:21+08:00">2022-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-05 16:20:47" itemprop="dateModified" datetime="2022-08-05T16:20:47+08:00">2022-08-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在事件处理函数中，为data中的数据赋值的时候</p>
-<p>不能直接更改data中的数据的值，而是需要通过this.setData进行修改，但是data是响应式的，会自动更新视图</p>
 
       
     </div>
@@ -978,7 +928,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1044,7 +994,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
