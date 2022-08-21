@@ -145,6 +145,256 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/21/React--render%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/21/React--render%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">React--render函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-21 12:05:26 / 修改时间：13:40:34" itemprop="dateCreated datePublished" datetime="2022-08-21T12:05:26+08:00">2022-08-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="当使用setState更新数据的时候"><a href="#当使用setState更新数据的时候" class="headerlink" title="当使用setState更新数据的时候"></a>当使用setState更新数据的时候</h4><ul>
+<li><h5 id="React会调用当前组件的render函数更新视图。"><a href="#React会调用当前组件的render函数更新视图。" class="headerlink" title="React会调用当前组件的render函数更新视图。"></a>React会调用当前组件的render函数更新视图。</h5></li>
+<li><h5 id="子组件的render函数也会被调用。"><a href="#子组件的render函数也会被调用。" class="headerlink" title="子组件的render函数也会被调用。"></a>子组件的render函数也会被调用。</h5></li>
+<li><h5 id="这个时候以当前组件为根的整个组件树都会调用render函数重新比较VNode，并决定是否渲染。"><a href="#这个时候以当前组件为根的整个组件树都会调用render函数重新比较VNode，并决定是否渲染。" class="headerlink" title="这个时候以当前组件为根的整个组件树都会调用render函数重新比较VNode，并决定是否渲染。"></a>这个时候以当前组件为根的整个组件树都会调用render函数重新比较VNode，并决定是否渲染。</h5></li>
+</ul>
+<p>如果子组件依赖的数据并没有发生改变，那么它就不需要调用render函数。<strong>类组件</strong>为了解决这个问题：</p>
+<ol>
+<li>子组件使用shouldComponentUpdate(nextProps,nextState)生命周期钩子，并通过比较新旧依赖数据返回Boolean类型决定是否需要更新当前组件。</li>
+<li>子组件不再继承Component，改为继承PureComponent，这样React就会自动比较Props和state，决定是否需要更新组件。</li>
+</ol>
+<h4 id="PureComponent的问题"><a href="#PureComponent的问题" class="headerlink" title="PureComponent的问题"></a>PureComponent的问题</h4><ul>
+<li>​	PureComponent本质上也是对新旧的依赖数据进行比较，但是由于性能消耗考虑，这个比较只是<strong>浅层比较</strong>，当深层数据改变的时候，即使是组件依赖这个深层数据，但是也不会更新。</li>
+</ul>
+<h4 id="如何解决PureComponent不比较深层数据的问题？"><a href="#如何解决PureComponent不比较深层数据的问题？" class="headerlink" title="如何解决PureComponent不比较深层数据的问题？"></a>如何解决PureComponent不比较深层数据的问题？</h4><p>​	在父组件使用setState改变数据的时候，<strong>通过直接改变state中数据的引用地址</strong>，子组件就能监听到数据已经发生了改变，从而触发更新。</p>
+<h4 id="改变数据引用地址的方法："><a href="#改变数据引用地址的方法：" class="headerlink" title="改变数据引用地址的方法："></a>改变数据引用地址的方法：</h4><ul>
+<li>对于数组，可以通过调用concat，拓展运算符等浅复制的方法，产生一个新的数组，通过将新数组赋给旧数组就可以实现改变数组类型数据的引用地址</li>
+<li>对于对象，可以通过调用assign，拓展运算符等浅复制方法，产生一个新的对象，通过将新对象赋值给旧对象，就可以改变对象数据类型的引用地址</li>
+</ul>
+<h4 id="那么，函数式组件怎么解决这个问题呢？"><a href="#那么，函数式组件怎么解决这个问题呢？" class="headerlink" title="那么，函数式组件怎么解决这个问题呢？"></a>那么，函数式组件怎么解决这个问题呢？</h4><ul>
+<li>​	使用高阶组件  React.memo()</li>
+</ul>
+<h3 id="React-memo"><a href="#React-memo" class="headerlink" title="React.memo()"></a>React.memo()</h3><p>​	React.memo()是一个<strong>高阶组件</strong>，传入一个函数式组件作为参数，memo会返回一个新的组件，这个组件就类似于继承PureComponent的类组件，也会浅层监听Props，state，condex的数据变化，决定是否需要重新渲染。</p>
+<ul>
+<li>对于深层数据，memo高阶组件任然不能监听到，解决方法还是通过改变数据引用地址使子组件能监听到数据变化。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/21/React%20%E7%9A%84%20setState/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/21/React%20%E7%9A%84%20setState/" class="post-title-link" itemprop="url">React--setState</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-21 10:58:26 / 修改时间：11:38:52" itemprop="dateCreated datePublished" datetime="2022-08-21T10:58:26+08:00">2022-08-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="setState是用来干什么的？"><a href="#setState是用来干什么的？" class="headerlink" title="setState是用来干什么的？"></a>setState是用来干什么的？</h3><p>​	在React开发中，我们不能直接通过修改state的值进行视图更新。因为我们直接修改state之后，React并不知道我们对State进行了修改。由于React中的数据不是响应式的，所以需要通过setState来手动通知React我们对state进行了修改，从而进行视图更新。</p>
+<h3 id="在class组件中，setState是从哪里来的呢？"><a href="#在class组件中，setState是从哪里来的呢？" class="headerlink" title="在class组件中，setState是从哪里来的呢？"></a>在class组件中，setState是从哪里来的呢？</h3><p>​	  在class组件中，setState是从Component类上继承过来的。</p>
+<h3 id="setState更新到底是同步的还是异步的？"><a href="#setState更新到底是同步的还是异步的？" class="headerlink" title="setState更新到底是同步的还是异步的？"></a>setState更新到底是同步的还是异步的？</h3><p>​		在大多数情况下，setState都是异步的，因为如果每次修改state都重新进行页面渲染的话会比较消耗性能，为了解决这个问题，React会异步更新视图，在同一个事件循环周期内的更新视图任务都会放入一个队列中，然后等待上次事件循环的渲染任务完成之后，将这个队列中的所有更新视图任务都出列，进入新老VNode的比较，尽可能减少对真实dom的操作。</p>
+<h3 id="如何获取异步更新之后的值？"><a href="#如何获取异步更新之后的值？" class="headerlink" title="如何获取异步更新之后的值？"></a>如何获取异步更新之后的值？</h3><ul>
+<li>​	setState 函数可以传入两个参数，第一个参数可以是函数或者对象，第二个参数是一个回调函数，这个回调函数会在更新之后执行</li>
+<li>​    在componentDidUpdate生命周期函数里面可以获取到更新之后的数据</li>
+</ul>
+<h3 id="setState在哪些情况下是同步的？"><a href="#setState在哪些情况下是同步的？" class="headerlink" title="setState在哪些情况下是同步的？"></a>setState在哪些情况下是同步的？</h3><p>​	在setTimeOut中，原生Dom事件中setState是同步的。这里需要注意的是，在JSX中绑定的事件基本上都是React的合成事件，并不是原生的，原生事件需要通过原生方法获取dom对象之后才能绑定。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/08/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E9%AB%98%E7%AB%AF%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/08/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E9%AB%98%E7%AB%AF%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">前端开发中的高端操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-08 23:17:21" itemprop="dateCreated datePublished" datetime="2022-08-08T23:17:21+08:00">2022-08-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-09 01:27:14" itemprop="dateModified" datetime="2022-08-09T01:27:14+08:00">2022-08-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><h4 id="快速转Number"><a href="#快速转Number" class="headerlink" title="快速转Number"></a>快速转Number</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="string">&#x27;1&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(+a)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="快速转String"><a href="#快速转String" class="headerlink" title="快速转String"></a>快速转String</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a+<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="快速转Boolean"><a href="#快速转Boolean" class="headerlink" title="快速转Boolean"></a>快速转Boolean</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">0</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(!!a)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="混写"><a href="#混写" class="headerlink" title="混写"></a>混写</h4></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="string">&#x27;0&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(!!a)		<span class="comment">// true  字符串转Boolean永远返回true，所以要先转 Number再转Boolean</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( !!+a )</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="js和css两用样式"><a href="#js和css两用样式" class="headerlink" title="js和css两用样式"></a>js和css两用样式</h4><ul>
+<li>定义scss文件</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$menuActiveText</span>:<span class="number">#409EFF</span>;</span><br><span class="line">:export &#123;</span><br><span class="line">  menuActiveText: <span class="variable">$menuActiveText</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>在js中调用：</p>
+<ul>
+<li>使用import引入scss文件</li>
+<li>定义computed将styles对象变成响应式对象</li>
+<li>在template中使用styles对象</li>
+</ul>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">:style</span>=<span class="string">&quot;&#123; color: styles.menuActiveText &#125;&quot;</span>&gt;</span>Text<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">&#x27;@/styles/variables.scss&#x27;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="attr">computed</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">styles</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span> styles</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/07/vue-router%20%E5%88%B7%E6%96%B0%E4%B9%8B%E5%90%8Eparams%E5%B0%B1%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -730,201 +980,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/rotate%E5%92%8Ctranslate%E6%B7%B7%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">transform中rotate和translate混用的问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:59:26 / 修改时间：12:03:34" itemprop="dateCreated datePublished" datetime="2022-07-30T11:59:26+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>transform可以在浏览器不用reLayout的情况下移动元素的位置，对动画性能比较友好。</p>
-<p>​	其中，translate是使元素平移，rotate是使元素旋转</p>
-<p>​	在旋转的时候，会将元素的 x， y轴跟着一起旋转，所以当面临混用的情况，就可以将translate放在前面，rotate放在后面，这样就会先平移再旋转，不会影响到translate</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">20px</span>,<span class="number">20px</span>) <span class="built_in">rotate</span>(<span class="number">90deg</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84map%E6%96%B9%E6%B3%95%E5%92%8CforEach%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">遍历数组的两种常用方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:39:21 / 修改时间：11:46:50" itemprop="dateCreated datePublished" datetime="2022-07-30T11:39:21+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-Array-prototype-forEach-callback-item-index-array"><a href="#1-Array-prototype-forEach-callback-item-index-array" class="headerlink" title="1. Array.prototype.forEach( callback(item,index,array )  )"></a>1. Array.prototype.forEach( callback(item,index,array )  )</h4><p>​	forEach传入一个回调函数，回调函数有3个参数</p>
-<ol>
-<li>当前遍历的value</li>
-<li>当前value的下标</li>
-<li>当前遍历的array</li>
-</ol>
-<h4 id="2-Array-prototype-map-callback-item-index-array"><a href="#2-Array-prototype-map-callback-item-index-array" class="headerlink" title="2. Array.prototype.map(callback(item,index,array ) )"></a>2. Array.prototype.map(callback(item,index,array ) )</h4><p>​	map参数跟forEach一样</p>
-<h3 id="map-和-forEach的区别："><a href="#map-和-forEach的区别：" class="headerlink" title="map 和  forEach的区别："></a>map 和  forEach的区别：</h3><p>map 会根据回调函数的返回值返回一个新的数组，如果回调函数返回true，就会把当前遍历的value添加到新数组中去，返回false就不添加，而forEach函数没有返回值</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/%E5%B0%86%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E9%87%8C%E9%9D%A2%E7%9A%84%E5%85%83%E7%B4%A0%E5%8A%A0%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%AD/" class="post-title-link" itemprop="url">将一个数组中的元素复制到另一个数组中的方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-30 11:29:21 / 修改时间：11:38:31" itemprop="dateCreated datePublished" datetime="2022-07-30T11:29:21+08:00">2022-07-30</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id><a href="#" class="headerlink" title></a></h2><h4 id="1-展开运算符"><a href="#1-展开运算符" class="headerlink" title="1. 展开运算符"></a>1. 展开运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">arr1.<span class="title function_">push</span>(...arr2)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开"><a href="#2-apply，apply会立即执行，-第一个参数绑定this，第二个参数会自动展开" class="headerlink" title="2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开"></a>2. apply，apply会立即执行， 第一个参数绑定this，第二个参数会自动展开</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> array1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> array2 = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">array1.<span class="property">push</span>.<span class="title function_">apply</span>(array1,array2)</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -994,12 +1049,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

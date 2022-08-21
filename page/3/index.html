@@ -145,6 +145,231 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/" class="post-title-link" itemprop="url">MVC和MVVM的关系</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-15 11:23:10" itemprop="dateCreated datePublished" datetime="2022-07-15T11:23:10+08:00">2022-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-30 12:50:33" itemprop="dateModified" datetime="2022-07-30T12:50:33+08:00">2022-07-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​	mvc是服务端的概念，mvvｍ是客户端的概念，他们不能相提并论。</p>
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>​	mvc是后端逻辑分层的概念，可以分为m（model），v（view）,c（controller）三大部分。</p>
+<h3 id="view"><a href="#view" class="headerlink" title="view"></a>view</h3><p>​		view就是视图层的意思，也就是前端页面，视图层 （v）和 控制器（c）通过 http 协议 进行通信，由view请求controler提供的的api接口（request），然后控制器（c）收到请求（request）之后，经过路由（router）将request分发</p>
+<h3 id="controler"><a href="#controler" class="headerlink" title="controler"></a>controler</h3><p>​		controler就是控制器的意思，通常在基于node.js的接口开发里面，有路由分发模块（router）、 中间件模块（middleware）、控制器模块（controler），这三个模块都属于controler层。从 view 发送到后端的 <strong>请求</strong>  （request）会先到达入口文件（app.js）,入口文件收到<strong>请求</strong>之后会调用路由模块（router）进行路由分发,经过路由分发之后,<strong>请求</strong>会经过中间件(middleware) 进行相应的处理,处理之后会到达controler模块,controler模块会根据<strong>请求</strong> 调用 数据模型模块（model）,结合model里面的数据并进行逻辑处理之后就会将数据 以http response 的方式返回给 视图层（view）</p>
+<h3 id="model"><a href="#model" class="headerlink" title="model"></a>model</h3><p>​			model就是数据模型的意思，它是职能单一的，只负责数据库的操作，执行sql语句，进行数据的增、删、改、查 。 数据模型里面对增删改查等操作进行了封装，并对外部暴露了封装好之后的方法，使得controler在对数据库操作的时候不需要每次都写sql语句。同时，model也负责连接数据库。</p>
+<img src="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/image-20220603234002353-16578558177721.png" class title="image-20220603234002353">
+
+<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVＭ"></a>MVVＭ</h2><p>​		mｖｖｍ是前端的逻辑分层概念。可以分为三层：每个页面保存的数据模型（ｍ）数据调度者（ｍｖ）视图层（ｖ）。</p>
+<h3 id="model-1"><a href="#model-1" class="headerlink" title="model"></a>model</h3><p>​				当用户打开一个页面的时候，页面会向服务器发送请求，并将数据保存在本地。这些数据就是当前页面的数据模型。数据模型要显示到页面上的话就要将数据给到ｍｖ。在ｖｕｅ中，响应式数据功能实现了ｍｏｄｅｌ和ｍｏｄｅｌｖｉｅｗ的数据双向绑定</p>
+<h3 id="modelview"><a href="#modelview" class="headerlink" title="modelview"></a>modelview</h3><p>​				当<strong>数据</strong>从服务器下载到本地之后，<strong>数据</strong>就会流向ｍｖ模型，然后由ｍｖ模型决定什么时候将<strong>数据</strong>渲染到<strong>视图层</strong>。当ｍｖ拿到来自于页面的数据之后，也会将数据保存到数据模型中去。在ｖｕｅ中，框架所做的事情就相当于这里的数据调度者。ｖｕｅ框架实现了与ｖｉｅｗ之间的数据双向绑定</p>
+<h3 id="view-1"><a href="#view-1" class="headerlink" title="view"></a>view</h3><p>​				视图层负责将来自于ｍｖ的数据显示到页面上来。当用户触发页面监听的事件，输入数据之后，将数据返回给数据调度模型（ｍｖ）。</p>
+<img src="/2022/07/15/MVC%E5%92%8CMVVM%E7%9A%84%E5%85%B3%E7%B3%BB/image-20220604002305490-16578558252172.png" class>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/" class="post-title-link" itemprop="url">inline-block的一个小陷阱</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-14 23:20:26" itemprop="dateCreated datePublished" datetime="2022-07-14T23:20:26+08:00">2022-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-21 11:55:57" itemprop="dateModified" datetime="2022-08-21T11:55:57+08:00">2022-08-21</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​	有时候我们需要将几个块级元素横向流动，于是就会将他们CSS的display属性设置为inline-block</p>
+<p>​	</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.inner</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">33.33%</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">display</span>: inline-block;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">outline</span>: solid <span class="number">1px</span> blue;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是效果是这样的</p>
+<img src="/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/image-20220718154216731.png" class title="image-20220718154216731">
+
+<h5 id="这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。"><a href="#这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。" class="headerlink" title="这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。"></a>这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。</h5><ul>
+<li>将标签都写在同一行，标签之间不能有空格</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>给父元素的font-size设置为0</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.outer</span>&#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="fang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fang 的 little blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/14/localstorage%E5%92%8Csessionstorage%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">localStorage和sessionstorage的区别</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-14 23:20:26" itemprop="dateCreated datePublished" datetime="2022-07-14T23:20:26+08:00">2022-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-19 10:01:02" itemprop="dateModified" datetime="2022-07-19T10:01:02+08:00">2022-07-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Web Storage出现的目的是为了解决通过客户端存储解决与服务器通信频繁使用Cookie的问题。</p>
+<h4 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h4><p>sessionStorage是跨会话的存储机制，这意味着数据只会存储到浏览器关闭。存储在sessionStorage中的数据不受刷新的影响，可以在浏览器崩溃重启之后恢复。</p>
+<h4 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h4><p>localStorage是永久存储机制，也就是说当浏览器关闭了之后，存储的数据依然在。要访问同一个localStorage对象，页面必须来自同一个域（子域不可以）、相同端口上使用相同的协议。</p>
+<p>​	浏览器给Web Storage使用的空间大小给出了限制，一般会限制每个源5MB。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/14/reLayout%E5%92%8CrePainting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -742,231 +967,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/new%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/05/new%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/" class="post-title-link" itemprop="url">new一个对象的时候发生了什么？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-05 18:18:26" itemprop="dateCreated datePublished" datetime="2022-07-05T18:18:26+08:00">2022-07-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-14 23:36:36" itemprop="dateModified" datetime="2022-07-14T23:36:36+08:00">2022-07-14</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>创建一个空对象</li>
-<li>将空对象的原型指向构造函数的原型</li>
-<li>将构造函数的this指向空对象</li>
-<li>将构造函数有返回值的处理判断（如果返回的是基本数据类型，则忽略，如果是引用类型，则返回）</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="variable constant_">DOCTYPE</span> html&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">function</span> <span class="title function_">_new</span>(<span class="params">func, ...args</span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">let</span> obj = &#123;&#125;;                                   <span class="comment">//创建一个对象</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="title class_">Object</span>.<span class="title function_">setPrototypeOf</span>(obj, func.<span class="property"><span class="keyword">prototype</span></span>)      <span class="comment">//将对象的原型设置为构造函数的原型</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">let</span> result = func.<span class="title function_">apply</span>(obj,args)               <span class="comment">//将构造函数的this绑定到obj上面来</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">return</span> result <span class="keyword">instanceof</span> <span class="title class_">Object</span> ? result : obj  <span class="comment">//返回的时候判断一下，是引用数据类型就返回，不是就忽略</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">function</span> <span class="title function_">Test</span>(<span class="params">age</span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="variable language_">this</span>.<span class="property">age</span> = age</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="keyword">const</span> newTest = <span class="title function_">_new</span>(<span class="title class_">Test</span>,<span class="number">29</span>)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="variable language_">console</span>.<span class="title function_">log</span>(newTest)</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">new</span> <span class="title class_">Test</span>(<span class="number">19</span>));</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/nextTick%E7%9A%84%E7%94%A8%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/05/nextTick%E7%9A%84%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">nextTick的用法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-05 18:18:26" itemprop="dateCreated datePublished" datetime="2022-07-05T18:18:26+08:00">2022-07-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-06 22:39:56" itemprop="dateModified" datetime="2022-07-06T22:39:56+08:00">2022-07-06</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​	nextTick是等待下一次DOM更新的工具方法。因为Vue视图是异步更新的，Vue会监听数据变化，在同一事件循环中所有的数据变化完成之后再执行视图更新。所以当我们对数据进行修改之后，可能是拿不到更新之后的DOM的，这个时候就需要借助nextTick工具方法来确保我们拿到的是更新之后的DOM。</p>
-<h4 id="nextTick使用场景"><a href="#nextTick使用场景" class="headerlink" title="nextTick使用场景"></a>nextTick使用场景</h4><ol>
-<li>在created生命周期进行dom操作的时候（比如说使用echarts时需要绑定dom）</li>
-<li>在数据变化的时候，需要使用数据变化之后的DOM</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/05/script%E6%A0%87%E7%AD%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="fang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fang 的 little blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/05/script%E6%A0%87%E7%AD%BE/" class="post-title-link" itemprop="url">script标签</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-07-05 18:17:26 / 修改时间：23:03:27" itemprop="dateCreated datePublished" datetime="2022-07-05T18:17:26+08:00">2022-07-05</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>  将JavaScript引入HTML的方式主要是使用script标签。script标签可以放在<head></head>&gt;标签里面，放在这里除非使用async、defer属性，不然都无法访问到dom对象，因为执行它里面的代码的时候dom元素还没有挂载，也可以放在<body></body>标签里面，除非使用async、defer属性，不然放在这里只可以拿到script标签前面的dom元素，拿不到script标签后面的dom元素，因为执行的时候dom元素还没有挂载。如果不给script标签添加async属性或者defer属性，浏览器会同步下载JavaScript代码并同步执行，这个时候会阻塞浏览器的其他动作。</p>
-<h2 id="script标签的属性"><a href="#script标签的属性" class="headerlink" title="script标签的属性"></a>script标签的属性</h2><ol>
-<li><p>async </p>
-<p>表示应该立即下载脚本，但是异步执行脚本里面的内容。也就是说不会阻碍HTML其他的正常动作执行。只对外部引入脚本有效。当有多个async时，浏览器不能保证是否按照先后顺序执行。</p>
-</li>
-<li><p>defer</p>
-<p> 浏览器对这个属性的script标签的处理方式类似，区别是：浏览器会按照标签出现的先后次序执行脚本。</p>
-</li>
-<li><p>crosorigin</p>
-<p> 用于配置相关请求CORS(跨域资源共享)设置。添加crosorigin之后，控制台会显示一个比较详细的报错信息。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-cn&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index2.js&quot;</span>  <span class="attr">crossorigin</span>=<span class="string">&quot;use-credentials&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>src</p>
-<p>   用户引入外部的js文件，src属性的值是一个url，当浏览器解析到这个地方的时候，会向该url发送一个get请求，这个get请求不受同源策略的限制，但是下载过来的js代码再发送网络请求的时候又会受到同源策略的限制。由script标签的get请求不受同源策略限制的特性，衍生出了JSONP这种解决跨域问题的方法。当为script标签设置了src属性之后，浏览器就会只执行外部引入的JavaScript，忽略script标签内部的行内JavaScript。</p>
-</li>
-<li><p>type</p>
-<p>   当将type的值设置为module时，浏览器就会将该script标签视为一个模块，从而可以使用es6的import语法导入模块和export语法导出模块。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-cn&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;./index2.js&quot;</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;halo&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> hi = sayHi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//index2.js</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> func <span class="keyword">from</span> <span class="string">&#x27;./index.js&#x27;</span></span><br><span class="line"></span><br><span class="line">func.<span class="title function_">hi</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="动态加载script"><a href="#动态加载script" class="headerlink" title="动态加载script"></a>动态加载script</h2><p>​		</p>
-<p>通过JavaScript可以操纵dom，动态创建script标签，挂载到dom上，从而让浏览器解析里面的JavaScript代码。</p>
-<h2 id="标签"><a href="#标签" class="headerlink" title="  标签"></a><strong><noscript></noscript></strong>  标签</h2><p>当浏览器不支持JavaScript或者禁用JavaScript时，浏览器就会渲染<noscript>标签里面的内容。</noscript></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1036,12 +1036,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

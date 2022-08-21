@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/image-20220718154216731.png">
 <meta property="article:published_time" content="2022-07-14T15:20:26.000Z">
-<meta property="article:modified_time" content="2022-07-18T09:44:21.084Z">
+<meta property="article:modified_time" content="2022-08-21T03:55:57.146Z">
 <meta property="article:author" content="fang">
 <meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
@@ -183,7 +183,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-18 17:44:21" itemprop="dateModified" datetime="2022-07-18T17:44:21+08:00">2022-07-18</time>
+                <time title="修改时间：2022-08-21 11:55:57" itemprop="dateModified" datetime="2022-08-21T11:55:57+08:00">2022-08-21</time>
               </span>
 
           
@@ -204,9 +204,8 @@
 <p>但是效果是这样的</p>
 <img src="/2022/07/14/inline-block%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E9%99%B7%E9%98%B1/image-20220718154216731.png" class title="image-20220718154216731">
 
-<p>这是因为在HTML中，我们的div标签换行了，也就是说HTML在解析的时候，会解析我们的换行操作。为了解决这个问题，有以下解决方法</p>
-<ul>
-<li>将标签都写在同一行</li>
+<h5 id="这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。"><a href="#这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。" class="headerlink" title="这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。"></a>这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。</h5><ul>
+<li>将标签都写在同一行，标签之间不能有空格</li>
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -298,6 +297,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%99%E6%98%AF%E5%9B%A0%E4%B8%BA%E5%9C%A8HTML%E4%B8%AD%EF%BC%8C%E6%88%91%E4%BB%AC%E7%9A%84div%E6%A0%87%E7%AD%BE%E6%8D%A2%E8%A1%8C%E4%BA%86%EF%BC%8Cinline-block%E6%A0%87%E7%AD%BE%E6%8D%A2%E8%A1%8C%E6%88%96%E8%80%85%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E8%AF%9D%E4%BC%9A%E4%BA%A7%E7%94%9F%E9%97%B4%E9%9A%99%EF%BC%8C%E6%89%80%E4%BB%A5%E7%94%B1%E4%BA%8E%E9%97%B4%E9%9A%99%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E8%BF%99%E4%B8%80%E8%A1%8C%E5%B7%B2%E7%BB%8F%E6%94%BE%E4%B8%8D%E4%B8%8B%E4%B8%89%E4%B8%AA%E7%9B%92%E5%AD%90%E4%BA%86%EF%BC%8C%E6%89%80%E4%BB%A5%E4%BC%9A%E6%8D%A2%E8%A1%8C%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">这是因为在HTML中，我们的div标签换行了，inline-block标签换行或者有空格的话会产生间隙，所以由于间隙的问题，这一行已经放不下三个盒子了，所以会换行。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -311,12 +311,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
